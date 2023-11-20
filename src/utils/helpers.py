@@ -58,7 +58,7 @@ class SlidingWindowTimeSeriesDataset(Dataset):
 
 
 
-def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step):
+def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, name):
 	checkpoint = {
 		'model_state_dict': model.state_dict(),
 		'optimizer_state_dict': optimizer.state_dict(),
@@ -67,12 +67,12 @@ def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step):
 		'loss': loss,
 		'global_step_writer' : global_step,
 	}
-	save(checkpoint, f'model_epoch_{epoch}.pt') # is this ok to do? dont want to load full torch 
+	save(checkpoint, f'model_{name}_epoch_{epoch}.pt') # is this ok to do? dont want to load full torch 
 	print(f"Checkpointing succesfull after epoch {epoch}")
-     
 
 
-def calc_percentiles(predictions, actuals):
+
+def calc_percentiles(predictions, actuals, percentile):
 	# take predictions, actuals in correct order and return percentiles
 	# return p10, p50, p90
 	
@@ -82,7 +82,5 @@ def calc_percentiles(predictions, actuals):
 	sorted_errors = np.sort(errors)
 
 # Calculate p10, P50 and P90
-	p10 = np.percentile(sorted_errors, 10)
-	p50 = np.percentile(sorted_errors, 50)
-	p90 = np.percentile(sorted_errors, 90)
-	return p10, p50, p90
+	return np.percentile(sorted_errors, percentile)
+
