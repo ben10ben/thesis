@@ -4,6 +4,8 @@ from beartype.typing import Union, Tuple
 
 WORKING_DIR = Path.cwd()
 
+#TODO data / logic / config seperation of concern
+
 
 # path for all datasets
 CONFIG_DATA = {
