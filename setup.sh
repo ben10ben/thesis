@@ -1,0 +1,28 @@
+!/bin/bash
+mkdir data
+mkdir data/electricity
+mkdir data/euro_electricity
+mkdir logs
+mkdir outputs
+mkdir trained_models
+
+wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00321/LD2011_2014.txt.zip" -O temp.zip
+unzip temp.zip -d data/electricity
+rm temp.zip
+
+wget https://data.open-power-system-data.org/time_series/2020-10-06/time_series_60min_singleindex.csv -O data/euro_electricity/euro_elec.csv
+
+#torch==2.0.0+cu117 theoretically needed as a minimum
+
+# use this for pip
+python3.10 -m venv myenv
+source myenv/bin/activate
+pip install --upgrade pip
+pip3 install -r requirements.txt
+
+# use this if you prefer conda
+#conda update -n base -c defaults conda
+#conda create -n yourenvname python=3.10 anaconda
+#source activate ma_env
+#conda install pip
+#pip3 install -r requirements.txt
