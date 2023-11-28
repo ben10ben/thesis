@@ -3,6 +3,7 @@ mkdir data
 mkdir data/electricity
 mkdir data/euro_electricity
 mkdir logs
+mkdir tuning_logs
 mkdir outputs
 mkdir trained_models
 

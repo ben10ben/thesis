@@ -1,11 +1,11 @@
 from torch import save
 import numpy as np
-
-
-
+from config import *
 from torch.utils.data import Dataset
 from typing import List
 
+"""
+DEPRECATED
 class SlidingWindowTimeSeriesDataset(Dataset):
 #    def __init__(self, data, window_size, pred_length: List[int]):
 #    if not isinstance(pred_length, list):
@@ -35,8 +35,7 @@ class SlidingWindowTimeSeriesDataset(Dataset):
         target = self.data[id_index, time_index+self.window_size:time_index+self.total_seq_size, :]
         
         return window, target
-    
-
+"""    
 
 
 def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, name):
@@ -48,7 +47,7 @@ def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, nam
 		'loss': loss,
 		'global_step_writer' : global_step,
 	}
-	save(checkpoint, f'model_{name}_epoch_{epoch}.pt') # is this ok to do? dont want to load full torch 
+	save(checkpoint, f'{CONFIG_OUTPUT_PATH["series_standardized"]}/model_{name}_epoch_{epoch}_loss_{loss}.pt') # is this ok to do? dont want to load full torch 
 	print(f"Checkpointing succesfull after epoch {epoch}")
 
 

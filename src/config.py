@@ -2,14 +2,15 @@ from pathlib import Path
 from dataclasses import dataclass
 from beartype.typing import Union, Tuple
 
-WORKING_DIR = Path.cwd()
+current_dir = Path.cwd()
+WORKING_DIR = current_dir.parent
 
 #TODO data / logic / config seperation of concern
 
 
 # path for all datasets
 CONFIG_DATA = {
-			"electricity" : WORKING_DIR / "datasets/electricity/electricity_small.csv",
+			"electricity" : WORKING_DIR / "data/electricity/",
 			"retail"      : WORKING_DIR / "datasets/m4/xyz.csv",
 			}
 
@@ -19,6 +20,18 @@ CONFIG_MODEL_LOCATION = {
 			"series_standardized"	: WORKING_DIR / "saved_models/series_standardized/",
 			"revin"					: WORKING_DIR / "saved_models/revin/",
 			"FFT"					: WORKING_DIR / "saved_models/FFT/"
+			}
+
+CONFIG_OUTPUT_PATH = {
+			"series_standardized"	: WORKING_DIR / "outputs/series_standardized/",
+			"revin"					: WORKING_DIR / "outputs/revin/",
+			"FFT"					: WORKING_DIR / "outputs/FFT/"
+			}
+
+CONFIG_LOGS_PATH = {
+			"series_standardized"	: WORKING_DIR / "logs/series_standardized/",
+			"revin"					: WORKING_DIR / "logs/revin/",
+			"FFT"					: WORKING_DIR / "logs/FFT/"
 			}
 
 
