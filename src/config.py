@@ -17,22 +17,30 @@ CONFIG_DATA = {
 
 # folders for saved models
 CONFIG_MODEL_LOCATION = {
-			"series_standardized"	: WORKING_DIR / "saved_models/series_standardized/",
-			"revin"					: WORKING_DIR / "saved_models/revin/",
-			"FFT"					: WORKING_DIR / "saved_models/FFT/"
+			"revin_affine"			: WORKING_DIR / "outputs/models/series_standardized/",
+			"revin"					: WORKING_DIR / "outputs/models/revin/",
+			"FFT"					: WORKING_DIR / "outputs/models/FFT/"
 			}
 
 CONFIG_OUTPUT_PATH = {
-			"series_standardized"	: WORKING_DIR / "outputs/series_standardized/",
+			"revin_affine"			: WORKING_DIR / "outputs/series_standardized/",
 			"revin"					: WORKING_DIR / "outputs/revin/",
 			"FFT"					: WORKING_DIR / "outputs/FFT/"
 			}
 
 CONFIG_LOGS_PATH = {
-			"series_standardized"	: WORKING_DIR / "logs/series_standardized/",
-			"revin"					: WORKING_DIR / "logs/revin/",
-			"FFT"					: WORKING_DIR / "logs/FFT/"
+			"revin_affine"			: WORKING_DIR / "outputs/training_logs/series_standardized/",
+			"revin"					: WORKING_DIR / "outputs/training_logs/revin/",
+			"FFT"					: WORKING_DIR / "outputs/training_logs/FFT/"
 			}
+
+CONFIG_TUNING_PATH = {
+			"revin_affine"			: WORKING_DIR / "outputs/tuning_logs/series_standardized/",
+			"revin"					: WORKING_DIR / "outputs/tuning_logs/revin/",
+			"FFT"					: WORKING_DIR / "outputs/tuning_logs/FFT/"
+			}
+
+
 
 
 # config for iTransformer

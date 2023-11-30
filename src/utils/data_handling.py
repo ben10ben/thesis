@@ -1,19 +1,27 @@
-from config import CONFIG_DATA
+from config import *
 import pandas as pd
+from utils import helpers
 from torch.utils.data import Dataset
 import torch
+import numpy as np
+import pickle
+from torch.utils.data import DataLoader
+
 
 class SlidingWindowTimeSeriesDataset(Dataset):
 	"""
 	handles all dataset creation from (timeseries x id) tensors
+	TODO return multiple targets
 	"""
 	def __init__(self, data, window_size, pred_length):
 		self.data = data
 		self.window_size = window_size
 		self.pred_length = pred_length
+		#self.max_pred_length = pred_length[-1]
 
 	def __len__(self):
 		return self.data.size(0) - self.window_size - self.pred_length
+		# return self.data.size(0) - self.window_size - self.pred_length
 
 	def __getitem__(self, index):	
 		# Check if the index is within bounds
@@ -23,6 +31,8 @@ class SlidingWindowTimeSeriesDataset(Dataset):
  	   # Calculate which id and time step to use based on the index
 		window = self.data[index : index + self.window_size]
 		target = self.data[index + self.window_size : index + self.window_size + self.pred_length]
+		#target = self.data[index + self.window_size : index + self.window_size + self.max_pred_length]
+
 		return window, target
 
 
@@ -60,16 +70,15 @@ def df_to_tensor(df, standardize: bool):
 	# Concatenate all tensors along a new dimension, transpose
 	result_tensor = torch.stack(tensors)
 	result_tensor = result_tensor.transpose(0,1)
-
+	
+	standardize_dict = None
 	if standardize == True:
-		mean = torch.mean(result_tensor, dim=0)
-		std = torch.std(result_tensor, dim=0)
-		result_tensor = (result_tensor - mean) / std
+		result_tensor, standardize_dict = helpers.custom_standardizer(result_tensor)
 
-	return result_tensor
+	return result_tensor, standardize_dict
 
 
-def electricity_loader():
+def format_electricity():
 	"""
 	-load from .txt file, resample from 15min to 1h intervalls
 	-fill NANs inbetween and drop outside of range
@@ -81,9 +90,9 @@ def electricity_loader():
 	
 	try:
 		dataset_dict = {
-			"electricity_train" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_train.csv", index_col=False),
-			"electricity_val" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_val.csv", index_col=False),
-			"electricity_test" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_test.csv", index_col=False)
+			"train" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_train.csv", index_col=False),
+			"validation" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_val.csv", index_col=False),
+			"test" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_test.csv", index_col=False)
 			}
 	
 	except FileNotFoundError:
@@ -120,23 +129,65 @@ def electricity_loader():
 		
 		# Filter the original DataFrame to keep only the desired ids
 		output = output[output['id'].isin(ids_with_max_count)]
+
+		# cutoffs taken from previous papers
+		training_start_date 	= "2014-01-01"
+		validation_start_date 	= "2014-08-23"
+		test_start_date			= "2014-09-01"
 		
 		dataset_dict = {}
-		dataset_dict["electricity_train"] = output[(output['date'] >= "2014-01-01") & (output["date"] <= "2014-08-23")].copy() # cutoff taken from previous papers
-		dataset_dict["electricity_val"] = output[(output['date'] > "2014-08-23") & (output["date"] < "2014-09-01")].copy() # cutoff taken from previous papers
-		dataset_dict["electricity_test"] = output[(output['date'] >= "2014-09-01")].copy() # cutoff taken from previous papers
+		dataset_dict["train"] = output[(output['date'] >= training_start_date) & (output["date"] <= validation_start_date)].copy() 
+		dataset_dict["validation"] = output[(output['date'] > validation_start_date) & (output["date"] < test_start_date)].copy() 
+		dataset_dict["test"] = output[(output['date'] >= test_start_date)].copy() 
 
         # reset index and save for faster loading
 		for key, value in dataset_dict.items():
 			dataset_dict[key] = value.reset_index(drop=True)
 			value.to_csv(CONFIG_DATA["electricity"] / f"{key}.csv", sep=',', index=False)
 
-
 	return dataset_dict
 
+def load_electricity():
+	try:
+        # Specify the file path where you want to save the dictionary
+		file_path = '/vol/fob-vol7/nebenf21/reinbene/bene/MA/data/electricity/electricity_dict.pkl'
+
+        # Load the dictionary from the file using pickle.load
+		with open(file_path, 'rb') as file:
+			data_dict = pickle.load(file)
 
 
-def load_electricity_eu(self):
+	except FileNotFoundError:
+		data_dict = format_electricity()
+		standardize_values = dict()
+
+		for key, value in data_dict.items():
+			data_dict[key], standardize_values[key] = df_to_tensor(value, standardize=True)
+		# Save the dictionary to the file using pickle.dump
+		with open(file_path, 'wb') as file:
+			pickle.dump(data_dict, file)
+			pickle.dump(standardize_values, file)
+
+	return data_dict
+
+
+def convert_data(data_dict, window_size, pred_length):
+
+    train_window = SlidingWindowTimeSeriesDataset(data_dict["train"], window_size, pred_length)
+    val_window = SlidingWindowTimeSeriesDataset(data_dict["validation"], window_size, pred_length)
+    test_window = SlidingWindowTimeSeriesDataset(data_dict["test"], window_size, pred_length)
+
+
+    dataloader_train = DataLoader(train_window, batch_size=32, shuffle=True)
+    dataloader_validation = DataLoader(val_window, batch_size=32, shuffle=False)
+    dataloader_test = DataLoader(test_window, batch_size=32, shuffle=False)
+
+    train_features, train_labels = next(iter(dataloader_train))
+    print(f"Feature batch shape: {train_features.size()}")
+    print(f"Labels batch shape: {train_labels.size()}")
+    return dataloader_train, dataloader_validation, dataloader_test
+
+def load_eu_electricity():
 	"""
 	processes europe electricity dataset
 	-load
