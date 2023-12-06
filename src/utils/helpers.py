@@ -31,15 +31,16 @@ def calc_percentiles(predictions, actuals, percentile):
 	return np.percentile(sorted_errors, percentile)
 
 
-def custom_standardizer(result_tensor):
-    standardize_dict = {
-        "mean" : mean(result_tensor, dim=0),
-        "std" : std(result_tensor, dim=0)
-        }
+def custom_standardizer(result_tensor, standardize_dict=None):
+	if standardize_dict == None:
+		standardize_dict = {
+			"mean" : mean(result_tensor, dim=0),
+			"std" : std(result_tensor, dim=0)
+			}
 	
-    result_tensor = (result_tensor - standardize_dict["mean"]) / standardize_dict["std"]
+	result_tensor = (result_tensor - standardize_dict["mean"]) / standardize_dict["std"]
 
-    return result_tensor, standardize_dict
+	return result_tensor, standardize_dict
 
 
 

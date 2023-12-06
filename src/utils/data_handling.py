@@ -85,7 +85,7 @@ def df_to_tensor(df, standardize: bool):
 	result_tensor = result_tensor.transpose(0,1)
 	
 
-	# TODO standardize everything with train values?
+	# TODO standardize everything with train values!
 	standardize_dict = None
 	if standardize == True:
 		result_tensor, standardize_dict = helpers.custom_standardizer(result_tensor)
@@ -190,7 +190,7 @@ def load_electricity():
 		standardize_values = dict()
 
 		for key, value in data_dict.items():
-			data_dict[key], standardize_values[key] = df_to_tensor(value, standardize=True)
+			data_dict[key], standardize_values[key] = df_to_tensor(value, standardize=True) #TODO standardize on train metrics
 		# Save the dictionary to the file using pickle.dump
 		with open(file_path, 'wb') as file:
 			pickle.dump(data_dict, file)
