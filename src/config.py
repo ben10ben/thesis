@@ -11,7 +11,7 @@ WORKING_DIR = current_dir.parent
 # path for all datasets
 CONFIG_DATA = {
 			"electricity" : WORKING_DIR / "data/electricity/",
-			"retail"      : WORKING_DIR / "datasets/m4/xyz.csv",
+			"eu_electricity"      : WORKING_DIR / "data/eu_electricity/",
 			}
 
 

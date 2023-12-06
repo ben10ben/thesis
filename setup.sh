@@ -1,7 +1,7 @@
 !/bin/bash
 mkdir data
 mkdir data/electricity
-mkdir data/euro_electricity
+mkdir data/eu_electricity
 mkdir logs
 mkdir tuning_logs
 mkdir outputs
@@ -11,9 +11,8 @@ wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00321/LD2011_201
 unzip temp.zip -d data/electricity
 rm temp.zip
 
-wget https://data.open-power-system-data.org/time_series/2020-10-06/time_series_60min_singleindex.csv -O data/euro_electricity/euro_elec.csv
+wget https://data.open-power-system-data.org/time_series/2020-10-06/time_series_60min_singleindex.csv -O data/eu_electricity/eu_electricity.csv
 
-#torch==2.0.0+cu117 theoretically needed as a minimum
 
 # use this for pip
 python3.10 -m venv myenv

@@ -6,34 +6,47 @@ import torch
 import numpy as np
 import pickle
 from torch.utils.data import DataLoader
+from datetime import datetime
+
 
 
 class SlidingWindowTimeSeriesDataset(Dataset):
 	"""
 	handles all dataset creation from (timeseries x id) tensors
-	TODO return multiple targets
+	can handle multiple targets as used in iTransformer
 	"""
-	def __init__(self, data, window_size, pred_length):
+	def __init__(self, data, window_size, pred_lengths):
 		self.data = data
 		self.window_size = window_size
-		self.pred_length = pred_length
-		#self.max_pred_length = pred_length[-1]
+		self.pred_lengths = pred_lengths
+
+
+		if type(pred_lengths) == int:
+			self.max_pred_lengths = pred_lengths
+		else:
+			self.max_pred_lengths = max(pred_lengths)
 
 	def __len__(self):
-		return self.data.size(0) - self.window_size - self.pred_length
-		# return self.data.size(0) - self.window_size - self.pred_length
+		return self.data.size(0) - self.window_size - self.max_pred_lengths
 
 	def __getitem__(self, index):	
 		# Check if the index is within bounds
-		if index < 0 or (index + self.pred_length + self.window_size) > self.data.size(0):
+		if index < 0 or (index + self.max_pred_lengths + self.window_size) > self.data.size(0):
 			raise StopIteration("Index out of bounds")
 
  	   # Calculate which id and time step to use based on the index
 		window = self.data[index : index + self.window_size]
-		target = self.data[index + self.window_size : index + self.window_size + self.pred_length]
-		#target = self.data[index + self.window_size : index + self.window_size + self.max_pred_length]
 
-		return window, target
+
+		if type(self.pred_lengths) == int:
+			targets = self.data[index + self.window_size : index + self.window_size + self.pred_lengths]
+		else:
+			targets = tuple(
+				self.data[index + self.window_size : index + self.window_size + pred_length]
+				for pred_length in self.pred_lengths
+				)
+
+		return window, targets
 
 
 
@@ -52,7 +65,7 @@ def df_to_tensor(df, standardize: bool):
 	max_len = df.groupby("id").count()["target"].max()
 
 	# Initialize a list to store tensors
-	tensors = []
+	tensor_list = []
 
 	# Unique IDs
 	unique_ids = df['id'].unique()
@@ -65,12 +78,14 @@ def df_to_tensor(df, standardize: bool):
 		tensor = torch.tensor(df_id['target'].values, dtype=torch.float32)
 		# Add tensor to list if it is not too short
 		if len(tensor) == max_len:
-			tensors.append(tensor)
+			tensor_list.append(tensor)
 
 	# Concatenate all tensors along a new dimension, transpose
-	result_tensor = torch.stack(tensors)
+	result_tensor = torch.stack(tensor_list)
 	result_tensor = result_tensor.transpose(0,1)
 	
+
+	# TODO standardize everything with train values?
 	standardize_dict = None
 	if standardize == True:
 		result_tensor, standardize_dict = helpers.custom_standardizer(result_tensor)
@@ -132,15 +147,28 @@ def format_electricity():
 
 		# cutoffs taken from previous papers
 		training_start_date 	= "2014-01-01"
-		validation_start_date 	= "2014-08-23"
+		#validation_start_date 	= "2014-08-23" #TODO select bigger horizon for 720 preds: 720h + 96h = 34 days
+		validation_start_date   = "2014-07-28" # new validation horizon
 		test_start_date			= "2014-09-01"
-		
+
 		dataset_dict = {}
 		dataset_dict["train"] = output[(output['date'] >= training_start_date) & (output["date"] <= validation_start_date)].copy() 
 		dataset_dict["validation"] = output[(output['date'] > validation_start_date) & (output["date"] < test_start_date)].copy() 
 		dataset_dict["test"] = output[(output['date'] >= test_start_date)].copy() 
 
+		# Cast the string to a datetime variable
+		training_start_date = datetime.strptime("2014-01-01", "%Y-%m-%d")
+		validation_start_date = datetime.strptime( "2014-07-29", "%Y-%m-%d")
+		test_start_date = datetime.strptime("2014-09-01", "%Y-%m-%d")
+
+		train_len = validation_start_date - training_start_date
+		val_len = test_start_date - validation_start_date
+
+		print(f"Length train set: {train_len}")
+		print(f"Length validation set: {val_len}")
+
         # reset index and save for faster loading
+		print("Saving train, validation and test df for faster loading")
 		for key, value in dataset_dict.items():
 			dataset_dict[key] = value.reset_index(drop=True)
 			value.to_csv(CONFIG_DATA["electricity"] / f"{key}.csv", sep=',', index=False)
@@ -173,19 +201,19 @@ def load_electricity():
 
 def convert_data(data_dict, window_size, pred_length):
 
-    train_window = SlidingWindowTimeSeriesDataset(data_dict["train"], window_size, pred_length)
-    val_window = SlidingWindowTimeSeriesDataset(data_dict["validation"], window_size, pred_length)
-    test_window = SlidingWindowTimeSeriesDataset(data_dict["test"], window_size, pred_length)
+	train_window = SlidingWindowTimeSeriesDataset(data_dict["train"], window_size, pred_length)
+	val_window = SlidingWindowTimeSeriesDataset(data_dict["validation"], window_size, pred_length)
+	test_window = SlidingWindowTimeSeriesDataset(data_dict["test"], window_size, pred_length)
 
 
-    dataloader_train = DataLoader(train_window, batch_size=32, shuffle=True)
-    dataloader_validation = DataLoader(val_window, batch_size=32, shuffle=False)
-    dataloader_test = DataLoader(test_window, batch_size=32, shuffle=False)
+	dataloader_train = DataLoader(train_window, batch_size=32, shuffle=True)
+	dataloader_validation = DataLoader(val_window, batch_size=32, shuffle=False)
+	dataloader_test = DataLoader(test_window, batch_size=32, shuffle=False)
 
-    train_features, train_labels = next(iter(dataloader_train))
-    print(f"Feature batch shape: {train_features.size()}")
-    print(f"Labels batch shape: {train_labels.size()}")
-    return dataloader_train, dataloader_validation, dataloader_test
+	train_features, train_labels = next(iter(dataloader_train))
+	print(f"Feature batch shape: {train_features.size()}")
+
+	return dataloader_train, dataloader_validation, dataloader_test
 
 def load_eu_electricity():
 	"""
@@ -194,8 +222,14 @@ def load_eu_electricity():
 	-handle nan
 	-return dict: train, val test
 	"""
-	df = pd.read_csv(CONFIG_DATA["euro_electricity"])
+	df = pd.read_csv(CONFIG_DATA["eu_electricity"] / "eu_electricity.csv")
 		
+	df = df.drop('cet_cest_timestamp', axis=1)
+
+	# rename to fit DataSetClass
+	df.rename(columns={'utc_timestamp': 'date'}, inplace=True)
+	
+	# drop forecasts because its synthetic data
 	columns_to_delete = ['forecast']
 	df = df.drop([col for col in df.columns if any(partial_name in col for partial_name in columns_to_delete)], axis=1)
 
@@ -213,4 +247,6 @@ def load_eu_electricity():
 
 	# values at the start are set to zero, no more NANs
 	df = df.fillna(0)
+
+	return df
 		
