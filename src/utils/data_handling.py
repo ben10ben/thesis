@@ -250,3 +250,48 @@ def load_eu_electricity():
 
 	return df
 		
+def eu_electricity_to_tensor():
+    """
+    -loads eu electricity data and turns into (time series x id) tensor
+    """
+    # load dataset
+    df = load_eu_electricity()
+    df = df.drop('date', axis=1)
+
+    tensor_list = []
+
+    # convert each time series to tensor
+    for column in df.columns:
+        tensor = torch.tensor(df[column].values, dtype=torch.float32)
+        tensor_list.append(tensor)
+
+    result_tensor = torch.stack(tensor_list)
+    result_tensor = result_tensor.transpose(0,1)
+    return result_tensor
+
+def train_test_split_eu_elec(result_tensor, standardize=True):
+    """
+    -train test split for eu electricity dataset
+    -returns dict with data
+    -standardizes on train dataset values if True
+    -returns dict with standardize metrics if True
+    """
+    train_cutoff = 0.7
+    validation_cutoff = 0.8
+
+    train_cutoff = int(round(train_cutoff * result_tensor.size(0)))
+    validation_cutoff = int(round(validation_cutoff * result_tensor.size(0)))
+
+    data_dict = {}
+    data_dict["train"] = result_tensor[0:train_cutoff, :]
+    data_dict["validation"] = result_tensor[train_cutoff : validation_cutoff, :]
+    data_dict["test"] = result_tensor[validation_cutoff : , :]
+
+    train_standardize_dict = None
+    # normalize train and use matrics for val and test
+    if standardize is True:
+        data_dict["train"], train_standardize_dict = helpers.custom_standardizer(data_dict["train"])
+        data_dict["validation"], _ = helpers.custom_standardizer(data_dict["validation"], train_standardize_dict)
+        data_dict["test"], _ = helpers.custom_standardizer(data_dict["test"], train_standardize_dict)
+
+    return data_dict, train_standardize_dict

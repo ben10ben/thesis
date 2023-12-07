@@ -1,7 +1,8 @@
-from torch import save, mean, std, max
+from torch import save, mean, std, max, tensor
 import numpy as np
 from config import *
 import torch.nn as nn
+import torch
 
 def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, name):
 	checkpoint = {
@@ -32,19 +33,20 @@ def calc_percentiles(predictions, actuals, percentile):
 
 
 def custom_standardizer(result_tensor, standardize_dict=None):
-	if standardize_dict == None:
+	if standardize_dict is None:
 		standardize_dict = {
 			"mean" : mean(result_tensor, dim=0),
 			"std" : std(result_tensor, dim=0)
 			}
 	
+	# add small epsilon to prevent division by zerp
+	epsilon = tensor(1e-6)
+	standardize_dict["std"] = standardize_dict["std"].where(standardize_dict["std"] > epsilon, epsilon)
+
 	result_tensor = (result_tensor - standardize_dict["mean"]) / standardize_dict["std"]
 
 	return result_tensor, standardize_dict
 
-
-
-import torch
 
 def mean_squared_error(predictions, targets):
     """
