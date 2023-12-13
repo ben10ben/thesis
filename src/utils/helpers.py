@@ -14,7 +14,7 @@ def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, nam
 		'global_step_writer' : global_step,
 	}
 	# model, revin, affine, epoch, loss
-	save(checkpoint, f'{CONFIG_OUTPUT_PATH["revin"]}/{name}_epoch_{epoch}_loss_{loss}.pt') # is this ok to do? dont want to load full torch 
+	save(checkpoint, f'{CONFIG_MODEL_LOCATION["revin"]}/{name}_epoch_{epoch}_loss_{loss}.pt') # is this ok to do? dont want to load full torch 
 	print(f"Checkpointing succesfull after epoch {epoch}")
 
 
