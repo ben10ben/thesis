@@ -35,9 +35,8 @@ CONFIG_LOGS_PATH = {
 			}
 
 CONFIG_TUNING_PATH = {
-			"revin_affine"			: WORKING_DIR / "outputs/tuning_logs/series_standardized/",
-			"revin"					: WORKING_DIR / "outputs/tuning_logs/revin/",
-			"FFT"					: WORKING_DIR / "outputs/tuning_logs/FFT/"
+			"electricity"			: WORKING_DIR / "outputs/tuning_logs/electricity/",
+			"euro_electricity"					: WORKING_DIR / "outputs/tuning_logs/euro_electricity/",
 			}
 
 
