@@ -39,7 +39,7 @@ def custom_standardizer(result_tensor, standardize_dict=None):
 			"std" : std(result_tensor, dim=0)
 			}
 	
-	# add small epsilon to prevent division by zerp
+	# add small epsilon to prevent division by zero
 	epsilon = tensor(1e-6)
 	standardize_dict["std"] = standardize_dict["std"].where(standardize_dict["std"] > epsilon, epsilon)
 

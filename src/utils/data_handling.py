@@ -178,7 +178,7 @@ def format_electricity():
 def load_electricity():
 	try:
         # Specify the file path where you want to save the dictionary
-		file_path = '/vol/fob-vol7/nebenf21/reinbene/bene/MA/data/electricity/electricity_dict.pkl'
+		file_path = CONFIG_DATA["electricity"] / "electricity_dict.pkl"
 
         # Load the dictionary from the file using pickle.load
 		with open(file_path, 'rb') as file:
