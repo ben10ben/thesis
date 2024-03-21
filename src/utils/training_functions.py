@@ -61,8 +61,8 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 
 	scheduler.step()
 	writer.close()
-	if epoch % 5 == 0:
-		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
+	#if epoch % 5 == 0:
+	#	helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
 	eval_metrics_dict = fast_eval(model, dataloader_validation)
 
 	return eval_metrics_dict
