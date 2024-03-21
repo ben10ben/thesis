@@ -3,6 +3,8 @@ import numpy as np
 from config import *
 import torch.nn as nn
 import torch
+from tqdm import tqdm
+import torch.nn.functional as F
 
 def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, name):
 	checkpoint = {
@@ -76,14 +78,51 @@ def percentile(predictions, targets, percentile_value):
     return torch.quantile(errors, percentile_value)
 
     
-def evaluate(preds_dict, predictions, targets):
-	# for each prediciton length we calculate the metrics
-	for key, value in predictions.items():
-		preds_dict[key]["mse"] = preds_dict[key]["mse"] + mean_squared_error(value, targets[key])
-		preds_dict[key]["mae"] = preds_dict[key]["mae"] + mean_absolute_error(value, targets[key])
-		preds_dict[key]["mae"] = preds_dict[key]["smape"] + symmetric_mean_absolute_percentage_error(value, targets[key])
-		preds_dict[key]["p10"] = preds_dict[key]["p10"] + percentile(value, targets[key], 0.1)
-		preds_dict[key]["p50"] = preds_dict[key]["p50"] + percentile(value, targets[key], 0.5)
-		preds_dict[key]["p90"] = preds_dict[key]["p90"] + percentile(value, targets[key], 0.9)
+def full_eval(model, dataloader, device):
+	model.eval()
+	preds_dict = {
+		96 : {
+				"mse" : 0, "mae" : 0, "p10" : 0, "p50" : 0, "p90" : 0
+		},
+		192 : {
+				"mse" : 0, "mae" : 0, "p10" : 0, "p50" : 0, "p90" : 0
+		},
+		336 : {
+				"mse" : 0, "mae" : 0, "p10" : 0, "p50" : 0, "p90" : 0
+		},
+		720: {
+				"mse" : 0, "mae" : 0, "p10" : 0, "p50" : 0, "p90" : 0
+		}}
 
+	with torch.no_grad():
+		for input, target in tqdm(dataloader, desc=f"Epoch: Validating"):
+			if isinstance(target, torch.Tensor):
+				targets = target.to(device) 
+			else:
+				targets = [t for t in target]
+
+			outputs = model(input.to(device))
+            
+			targets = (targets,) if not isinstance(targets, tuple) else targets
+
+
+			# for each prediciton length we calculate the metrics
+			for target, output in zip(targets, outputs.values()):
+				length = output.size(1)
+
+				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target)
+				preds_dict[length]["mae"] = preds_dict[length]["mae"] + F.l1_loss(output, target)
+				#preds_dict[length]["smape"] = preds_dict[length]["smape"] + helpers.symmetric_mean_absolute_percentage_error(output, target) #TODO correct the formula
+				preds_dict[length]["p10"] = preds_dict[length]["p10"] + percentile(output, target, 0.1)
+				preds_dict[length]["p50"] = preds_dict[length]["p50"] + percentile(output, target, 0.5)
+				preds_dict[length]["p90"] = preds_dict[length]["p90"] + percentile(output, target, 0.9)
+
+	preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
+	preds_dict[length]["mae"] = preds_dict[length]["mae"]  /  len(dataloader)
+	#preds_dict[length]["smape"] = preds_dict[length]["smape"] /  len(dataloader)
+	preds_dict[length]["p10"] = preds_dict[length]["p10"]  / len(dataloader)
+	preds_dict[length]["p50"] = preds_dict[length]["p50"]  / len(dataloader)
+	preds_dict[length]["p90"] = preds_dict[length]["p90"] / len(dataloader)
+
+	
 	return preds_dict

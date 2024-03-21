@@ -2,6 +2,7 @@
 mkdir data
 mkdir data/electricity
 mkdir data/eu_electricity
+mkdir data/south_germany_electricity
 mkdir logs
 mkdir tuning_logs
 mkdir outputs

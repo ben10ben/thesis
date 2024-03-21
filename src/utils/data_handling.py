@@ -295,3 +295,46 @@ def train_test_split_eu_elec(result_tensor, standardize=True):
         data_dict["test"], _ = helpers.custom_standardizer(data_dict["test"], train_standardize_dict)
 
     return data_dict, train_standardize_dict
+
+
+def load_bavaria_electricity():
+	"""
+	returns 2D tensor of (timeseries x ID)
+	"""
+
+	df = pd.read_csv(CONFIG_DATA["south_germany"] / "south_germany.csv")
+
+	# drop second timestamp column
+	df = df.drop('cet_cest_timestamp', axis=1)
+	df = df.drop('interpolated', axis=1)
+
+	# rename to fit DataSetClass
+	df.rename(columns={'utc_timestamp': 'date'}, inplace=True)
+	df['date'] = pd.to_datetime(df['date'])
+
+
+
+    # drop columns with more than 90% missing values
+	threshold = 0.9 * len(df)
+	columns_to_drop = df.columns[df.isna().sum() > threshold]
+	df = df.drop(columns=columns_to_drop)
+
+    # drop rows with more than 20% NANs
+	threshold = 0.20 * len(df.columns)
+	df = df[df.isna().sum(axis=1) <= threshold]
+
+	# forward fill if previous values are present
+	df = df.fillna(method='ffill')
+
+    # values at the start are set to zero, no more NANs
+	df = df.fillna(0)
+
+    # Sort the DataFrame based on the 'date' column
+	df = df.sort_values(by='date')
+
+	df = df.drop(columns=['date'])
+
+	data_array = df.values
+	data_tensor = torch.tensor(data_array, dtype=torch.float32)
+
+	return data_tensor

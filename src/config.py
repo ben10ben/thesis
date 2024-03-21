@@ -12,26 +12,30 @@ WORKING_DIR = current_dir.parent
 CONFIG_DATA = {
 			"electricity" : WORKING_DIR / "data/electricity/",
 			"eu_electricity"      : WORKING_DIR / "data/eu_electricity/",
+			"south_germany": WORKING_DIR / "data/south_germany_electricity/",
 			}
 
 
 # folders for saved models
 CONFIG_MODEL_LOCATION = {
-			"revin_affine"			: WORKING_DIR / "outputs/models/series_standardized/",
+			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
 			"revin"					: WORKING_DIR / "outputs/models/revin/",
-			"FFT"					: WORKING_DIR / "outputs/models/FFT/"
+			"base"					: WORKING_DIR / "outputs/models/base/"
 			}
 
 CONFIG_OUTPUT_PATH = {
-			"revin_affine"			: WORKING_DIR / "outputs/series_standardized/",
-			"revin"					: WORKING_DIR / "outputs/revin/",
-			"FFT"					: WORKING_DIR / "outputs/FFT/"
+			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
+			"revin"					: WORKING_DIR / "outputs/models/revin/",
+			"base"					: WORKING_DIR / "outputs/models/base/",
+			"iTransformer_baseline" : WORKING_DIR / "outputs/models/iTransformer_baseline"
 			}
 
 CONFIG_LOGS_PATH = {
-			"revin_affine"			: WORKING_DIR / "outputs/training_logs/series_standardized/",
+			"stationary"			: WORKING_DIR / "outputs/training_logs/stationary/",
 			"revin"					: WORKING_DIR / "outputs/training_logs/revin/",
-			"FFT"					: WORKING_DIR / "outputs/training_logs/FFT/"
+			"base"					: WORKING_DIR / "outputs/training_logs/base/",
+			"iTransformer_baseline" : WORKING_DIR / "outputs/training_logs/iTransformer_baseline"
+
 			}
 
 CONFIG_TUNING_PATH = {

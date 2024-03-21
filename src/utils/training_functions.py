@@ -1,6 +1,7 @@
 import torch
 from utils import helpers
 from tqdm import tqdm
+import torch.nn.functional as F
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -8,37 +9,30 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def fast_eval(model, dataloader):
 	model.eval()
 	preds_dict = {
-		96 : {
-				"mse" : 0, "mae" : 0, "smape":0, "p10" : 0, "p50" : 0, "p90" : 0
-		},
-		192 : {
-				"mse" : 0, "mae" : 0, "smape":0, "p10" : 0, "p50" : 0, "p90" : 0
-		},
-		336 : {
-				"mse" : 0, "mae" : 0, "smape":0, "p10" : 0, "p50" : 0, "p90" : 0
-		},
-		720: {
-				"mse" : 0, "mae" : 0, "smape":0, "p10" : 0, "p50" : 0, "p90" : 0
-		}}
+		96 : {"mse" : 0},
+		192 : {"mse" : 0},
+		336 : {"mse" : 0},
+		720: {"mse" : 0}}
 
 	with torch.no_grad():
 		for input, target in tqdm(dataloader, desc=f"Epoch: Validating"):
-		
-			# targets are saved as list, send each to device
-			targets = (target[0].to(device), target[1].to(device), target[2].to(device), target[3].to(device))
-			outputs = model(input.to(device))
-		
-		# for each prediciton length we calculate the metrics
-		for target, output in zip(targets, outputs.values()):
-			preds_dict[output.size(1)]["mse"] = preds_dict[output.size(1)]["mse"] + helpers.mean_squared_error(output, target)
-			preds_dict[output.size(1)]["mae"] = preds_dict[output.size(1)]["mae"] + helpers.mean_absolute_error(output, target)
-			preds_dict[output.size(1)]["smape"] = preds_dict[output.size(1)]["smape"] + helpers.symmetric_mean_absolute_percentage_error(output, target)
-			preds_dict[output.size(1)]["p10"] = preds_dict[output.size(1)]["p10"] + helpers.percentile(output, target, 0.1)
-			preds_dict[output.size(1)]["p50"] = preds_dict[output.size(1)]["p50"] + helpers.percentile(output, target, 0.5)
-			preds_dict[output.size(1)]["p90"] = preds_dict[output.size(1)]["p90"] + helpers.percentile(output, target, 0.9)
+			if isinstance(target, torch.Tensor):
+				targets = target.to(device) 
+			else:
+				targets = [t for t in target]
 
-	#print("Pred_len 96 MSE: ", preds_dict[96]["mse"])
-	
+			outputs = model(input.to(device))
+            
+			targets = (targets,) if not isinstance(targets, tuple) else targets
+
+
+			# for each prediciton length we calculate the metrics
+			for target, output in zip(targets, outputs.values()):
+				length = output.size(1)
+				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target)
+
+	preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
+	print(F"Validation MAE is {preds_dict}")
 	return preds_dict
 
 
@@ -70,4 +64,5 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 	if epoch % 5 == 0:
 		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
 	eval_metrics_dict = fast_eval(model, dataloader_validation)
+
 	return eval_metrics_dict

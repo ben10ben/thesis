@@ -2,7 +2,6 @@ datasets
 data
 venv
 myenv
-outputs
 __pycache__
 iTransformer
 t14_github
@@ -11,3 +10,4 @@ saved_models
 logs
 tuning_logs
 oss_data
+*.pt
