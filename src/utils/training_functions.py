@@ -6,7 +6,7 @@ import torch.nn.functional as F
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def fast_eval(model, dataloader):
+def fast_eval(model, dataloader, device):
 	model.eval()
 	preds_dict = {
 		96 : {"mse" : 0},
@@ -32,7 +32,7 @@ def fast_eval(model, dataloader):
 				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target)
 
 	preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
-	print(F"Validation MAE is {preds_dict}")
+	print(F"Validation metrics: {preds_dict}")
 	return preds_dict
 
 
@@ -63,6 +63,6 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 	writer.close()
 	#if epoch % 5 == 0:
 	#	helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
-	eval_metrics_dict = fast_eval(model, dataloader_validation)
+	eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 
 	return eval_metrics_dict

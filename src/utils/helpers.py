@@ -105,7 +105,6 @@ def full_eval(model, dataloader, device):
             
 			targets = (targets,) if not isinstance(targets, tuple) else targets
 
-
 			# for each prediciton length we calculate the metrics
 			for target, output in zip(targets, outputs.values()):
 				length = output.size(1)
