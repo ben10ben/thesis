@@ -27,7 +27,10 @@ CONFIG_OUTPUT_PATH = {
 			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
 			"revin"					: WORKING_DIR / "outputs/models/revin/",
 			"base"					: WORKING_DIR / "outputs/models/base/",
-			"iTransformer_baseline" : WORKING_DIR / "outputs/models/iTransformer_baseline"
+			"iTransformer_baseline" : WORKING_DIR / "outputs/models/iTransformer_baseline/",
+			"arima" 				: WORKING_DIR / "outputs/models/arima/",
+			"iTransformer_split_dataset_tl" : WORKING_DIR / "outputs/models/iTransformer_split_dataset_tl"
+
 			}
 
 CONFIG_LOGS_PATH = {

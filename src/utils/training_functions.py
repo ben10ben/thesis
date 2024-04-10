@@ -36,7 +36,7 @@ def fast_eval(model, dataloader, device):
 	return preds_dict
 
 
-def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, writer):
+def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, writer, save_checkpoints = False):
 	global_step = 0
 	model.train()
 	total_loss = 0
@@ -57,12 +57,12 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 		lr =  optimizer.param_groups[0]['lr']
 		global_step+=1
 
-	print(f'Epoch {epoch}, MSE-Loss: {total_loss / (len(dataloader_train) * 4)}, LR: {lr}')
+	#print(f'Epoch {epoch}, MSE-Loss: {total_loss / (len(dataloader_train) * 4)}, LR: {lr}')
 
 	scheduler.step()
 	writer.close()
-	#if epoch % 5 == 0:
-	#	helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
+	if save_checkpoints == True and epoch % 5 == 0:
+		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
 	eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 
 	return eval_metrics_dict

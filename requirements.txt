@@ -15,3 +15,4 @@ optuna-dashboard==0.13.0
 plotly==5.18.0
 nbformat>=4.2.0
 torchmetrics==1.2.1
+pmdarima==2.0.4

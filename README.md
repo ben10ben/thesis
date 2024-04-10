@@ -2,7 +2,9 @@ TODO
 
 automate model saving with sensible names
 
+check if bavaria is loaded correctly and somewhat similar to electricity
 
+visualize eu elec
 
 
 

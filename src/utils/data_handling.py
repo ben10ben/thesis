@@ -50,7 +50,7 @@ class SlidingWindowTimeSeriesDataset(Dataset):
 
 
 
-def df_to_tensor(df, standardize: bool):
+def df_to_tensor(df):
 	"""
 	transforms pandas df to tensor
 	-no need for specific order
@@ -84,13 +84,7 @@ def df_to_tensor(df, standardize: bool):
 	result_tensor = torch.stack(tensor_list)
 	result_tensor = result_tensor.transpose(0,1)
 	
-
-	# TODO standardize everything with train values!
-	standardize_dict = None
-	if standardize == True:
-		result_tensor, standardize_dict = helpers.custom_standardizer(result_tensor)
-
-	return result_tensor, standardize_dict
+	return result_tensor
 
 
 def format_electricity():
@@ -175,7 +169,7 @@ def format_electricity():
 
 	return dataset_dict
 
-def load_electricity():
+def load_electricity(standardize=True):
 	try:
         # Specify the file path where you want to save the dictionary
 		file_path = CONFIG_DATA["electricity"] / "electricity_dict.pkl"
@@ -187,19 +181,29 @@ def load_electricity():
 
 	except FileNotFoundError:
 		data_dict = format_electricity()
-		standardize_values = dict()
 
 		for key, value in data_dict.items():
-			data_dict[key], standardize_values[key] = df_to_tensor(value, standardize=True) #TODO standardize on train metrics
+			data_dict[key]= df_to_tensor(value) #TODO check if normalization correction worked
+
+
+		train_standardize_dict = None
+    	# normalize train and use matrics for val and test
+		if standardize is True:
+			data_dict["train"], train_standardize_dict = helpers.custom_standardizer(data_dict["train"])
+			data_dict["validation"], _ = helpers.custom_standardizer(data_dict["validation"], train_standardize_dict)
+			data_dict["test"], _ = helpers.custom_standardizer(data_dict["test"], train_standardize_dict)
+
+
 		# Save the dictionary to the file using pickle.dump
 		with open(file_path, 'wb') as file:
 			pickle.dump(data_dict, file)
-			pickle.dump(standardize_values, file)
+		with open(CONFIG_DATA["electricity"] / "electricity_normalize_values.pkl", 'wb') as file:
+			pickle.dump(train_standardize_dict, file)
 
 	return data_dict
 
 
-def convert_data(data_dict, window_size, pred_length):
+def convert_data(data_dict, window_size, pred_length, TL_split=False):
 
 	train_window = SlidingWindowTimeSeriesDataset(data_dict["train"], window_size, pred_length)
 	val_window = SlidingWindowTimeSeriesDataset(data_dict["validation"], window_size, pred_length)

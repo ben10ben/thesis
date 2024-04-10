@@ -3,10 +3,17 @@ mkdir data
 mkdir data/electricity
 mkdir data/eu_electricity
 mkdir data/south_germany_electricity
-mkdir logs
-mkdir tuning_logs
 mkdir outputs
-mkdir trained_models
+mkdir outputs/logs
+mkdir outputs/tuning_logs
+mkdir outputs/models
+mkdir outputs/models/arima
+mkdir outputs/models/revin
+mkdir outputs/models/stationary
+mkdir outputs/models/base
+
+
+
 
 wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00321/LD2011_2014.txt.zip" -O temp.zip
 unzip temp.zip -d data/electricity
