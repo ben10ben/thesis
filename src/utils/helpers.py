@@ -6,7 +6,7 @@ import torch
 from tqdm import tqdm
 import torch.nn.functional as F
 
-def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, name):
+def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, path):
 	checkpoint = {
 		'model_state_dict': model.state_dict(),
 		'optimizer_state_dict': optimizer.state_dict(),
@@ -16,7 +16,7 @@ def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, nam
 		'global_step_writer' : global_step,
 	}
 	# model, revin, affine, epoch, loss
-	save(checkpoint, f'{CONFIG_MODEL_LOCATION["revin"]}/{name}_epoch_{epoch}_loss_{loss}.pt') # is this ok to do? dont want to load full torch 
+	save(checkpoint, path) # is this ok to do? dont want to load full torch 
 	print(f"Checkpointing succesfull after epoch {epoch}")
 
 
@@ -35,6 +35,11 @@ def calc_percentiles(predictions, actuals, percentile):
 
 
 def custom_standardizer(result_tensor, standardize_dict=None):
+	"""
+	normalizes each id by its own mean and std
+	input: tensor[timeseries, id]
+	output normalized tensor[timeseries, id]
+	"""
 	if standardize_dict is None:
 		standardize_dict = {
 			"mean" : mean(result_tensor, dim=0),
@@ -48,6 +53,8 @@ def custom_standardizer(result_tensor, standardize_dict=None):
 	result_tensor = (result_tensor - standardize_dict["mean"]) / standardize_dict["std"]
 
 	return result_tensor, standardize_dict
+
+	
 
 
 def mean_squared_error(predictions, targets):

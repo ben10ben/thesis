@@ -20,16 +20,20 @@ CONFIG_DATA = {
 CONFIG_MODEL_LOCATION = {
 			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
 			"revin"					: WORKING_DIR / "outputs/models/revin/",
-			"base"					: WORKING_DIR / "outputs/models/base/"
+			"base"					: WORKING_DIR / "outputs/models/base/",
+			"iTransformer_baseline" : WORKING_DIR / "outputs/models/iTransformer_baseline/",
+
 			}
 
 CONFIG_OUTPUT_PATH = {
-			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
-			"revin"					: WORKING_DIR / "outputs/models/revin/",
-			"base"					: WORKING_DIR / "outputs/models/base/",
-			"iTransformer_baseline" : WORKING_DIR / "outputs/models/iTransformer_baseline/",
-			"arima" 				: WORKING_DIR / "outputs/models/arima/",
-			"iTransformer_split_dataset_tl" : WORKING_DIR / "outputs/models/iTransformer_split_dataset_tl"
+			"stationary"			: WORKING_DIR / "outputs/results/stationary/",
+			"revin"					: WORKING_DIR / "outputs/results/revin/",
+			"base"					: WORKING_DIR / "outputs/results/base/",
+			"iTransformer_baseline" : WORKING_DIR / "outputs/results/iTransformer_baseline/",
+			"arima" 				: WORKING_DIR / "outputs/results/arima/",
+			"iTransformer_split_dataset_tl" : WORKING_DIR / "outputs/results/iTransformer_split_dataset_tl",
+			"TimeGPT"			: WORKING_DIR / "outputs/results/timegpt/",
+
 
 			}
 

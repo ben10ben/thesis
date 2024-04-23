@@ -183,7 +183,7 @@ def load_electricity(standardize=True):
 		data_dict = format_electricity()
 
 		for key, value in data_dict.items():
-			data_dict[key]= df_to_tensor(value) #TODO check if normalization correction worked
+			data_dict[key]= df_to_tensor(value)
 
 
 		train_standardize_dict = None
@@ -342,3 +342,23 @@ def load_bavaria_electricity():
 	data_tensor = torch.tensor(data_array, dtype=torch.float32)
 
 	return data_tensor
+
+
+# potentially take different horizons for training
+def create_data_subset(data_dict):
+    """
+    returns last 2, 4, 6, 8 weeks of dataset
+    """
+    sum_timesteps = data_dict["train"].size(0)
+
+    h_per_week = 7 * 24
+    weeks_dict = {"2_weeks" : 2*h_per_week, 
+                "4_weeks" : 4*h_per_week, 
+                "6_weeks" : 6*h_per_week, 
+                "8_weeks" : 8*h_per_week }
+
+
+    for key, value in weeks_dict.items():
+        data_dict[f"train_{key}"][(sum_timesteps-value):,:]     
+
+    return data_dict

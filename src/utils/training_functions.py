@@ -36,10 +36,11 @@ def fast_eval(model, dataloader, device):
 	return preds_dict
 
 
-def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, writer, save_checkpoints = False):
+def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, writer, checkpoint_path=None):
 	global_step = 0
 	model.train()
 	total_loss = 0
+	best_val_loss = 10000
 	
 	for input, target in tqdm(dataloader_train, desc=f"Epoch: {epoch}"):
 		optimizer.zero_grad()
@@ -52,17 +53,23 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 		optimizer.step()
 		total_loss += loss.item()
 
-		writer.add_scalar('train_loss', loss, global_step)
-		writer.add_scalar('train_lr', optimizer.param_groups[0]['lr'], global_step)
 		lr =  optimizer.param_groups[0]['lr']
 		global_step+=1
 
 	#print(f'Epoch {epoch}, MSE-Loss: {total_loss / (len(dataloader_train) * 4)}, LR: {lr}')
 
 	scheduler.step()
-	writer.close()
-	if save_checkpoints == True and epoch % 5 == 0:
-		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, "trial")
+	
+	writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
+
+
 	eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 
-	return eval_metrics_dict
+	if eval_metrics_dict[96]["mse"].item() < best_val_loss:
+		best_model = model
+		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, checkpoint_path)
+
+	writer.add_scalar('Loss/validation', (eval_metrics_dict[96]["mse"].item()), epoch)
+	writer.close()
+
+	return eval_metrics_dict, best_model
