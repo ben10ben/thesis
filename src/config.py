@@ -13,6 +13,7 @@ CONFIG_DATA = {
 			"electricity" : WORKING_DIR / "data/electricity/",
 			"eu_electricity"      : WORKING_DIR / "data/eu_electricity/",
 			"south_germany": WORKING_DIR / "data/south_germany_electricity/",
+			"genome_project": WORKING_DIR / "data/genome_project/"
 			}
 
 

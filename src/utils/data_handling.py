@@ -319,13 +319,24 @@ def load_bavaria_electricity():
 
 
     # drop columns with more than 90% missing values
-	threshold = 0.9 * len(df)
+	threshold = 0.7 * len(df)
 	columns_to_drop = df.columns[df.isna().sum() > threshold]
 	df = df.drop(columns=columns_to_drop)
 
-    # drop rows with more than 20% NANs
-	threshold = 0.20 * len(df.columns)
-	df = df[df.isna().sum(axis=1) <= threshold]
+	print("Columns dropped: ", len(columns_to_drop))
+
+	# drop rows at start and end with too many nan
+	counter_start = 0
+	while df.iloc[0].isnull().mean() > 0.20:
+		df.drop(df.index[0], inplace=True)
+		counter_start +=1
+	print("start rows removed: ", counter_start)
+
+	counter_end = 0
+	while df.iloc[-1].isnull().mean() > 0.20:
+		df.drop(df.index[-1], inplace=True)
+		counter_end += 1
+	print("end rows removed: ", counter_end)
 
 	# forward fill if previous values are present
 	df = df.fillna(method='ffill')
@@ -343,6 +354,55 @@ def load_bavaria_electricity():
 
 	return data_tensor
 
+def load_genome_project_data():
+	filename = CONFIG_DATA["genome_project"] / "genome_project_dataset.csv"
+
+	pickle_name = CONFIG_DATA["genome_project"] / "genome_project_dataset.pkl"
+
+
+	try:
+		# Load the tensor
+		with open(pickle_name, 'rb') as f:
+			data_tensor = pickle.load(f)
+	except FileNotFoundError:
+		df = pd.read_csv(filename)
+		# rename to fit DataSetClass
+		df.rename(columns={'timestamp': 'date'}, inplace=True)
+		df['date'] = pd.to_datetime(df['date'])
+
+		# drop columns with more than 40% missing values
+		threshold = 0.40 * len(df)
+		columns_to_drop = df.columns[df.isna().sum() > threshold]
+		df = df.drop(columns=columns_to_drop)
+		print("columns dropped: ", len(columns_to_drop))
+
+		# drop rows with more than 5% NANs from start and end
+		counter_start = 0
+		while df.iloc[0].isnull().mean() > 0.05:
+			df.drop(df.index[0], inplace=True)
+			counter_start +=1
+		print("start rows removed: ", counter_start)
+
+		counter_end = 0
+		while df.iloc[-1].isnull().mean() > 0.05:
+			df.drop(df.index[-1], inplace=True)
+			counter_end += 1
+		print("end rows removed: ", counter_end)
+
+		# forward fill if previous values are present
+		df = df.fillna(method='ffill')
+		df = df.fillna(0)
+
+		df.drop("date", axis=1, inplace=True)
+
+		data_array = df.values
+		data_tensor = torch.tensor(data_array, dtype=torch.float32)
+		
+		# Save the tensor
+		with open(pickle_name, 'wb') as f:
+			pickle.dump(data_tensor, f)
+
+	return data_tensor
 
 # potentially take different horizons for training
 def create_data_subset(data_dict):

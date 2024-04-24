@@ -16,5 +16,4 @@ plotly==5.18.0
 nbformat>=4.2.0
 torchmetrics==1.2.1
 pmdarima==2.0.4
-neuralforecast==1.7.1 #not?
 darts==0.29.0
