@@ -305,52 +305,65 @@ def load_bavaria_electricity():
 	"""
 	returns 2D tensor of (timeseries x ID)
 	"""
+	filename = CONFIG_DATA["south_germany"] / "south_germany.csv"
 
-	df = pd.read_csv(CONFIG_DATA["south_germany"] / "south_germany.csv")
+	pickle_name = CONFIG_DATA["south_germany"] / "south_germany_tensor.pkl"
 
-	# drop second timestamp column
-	df = df.drop('cet_cest_timestamp', axis=1)
-	df = df.drop('interpolated', axis=1)
+	try:
+		# Load the tensor
+		with open(pickle_name, 'rb') as f:
+			data_tensor = pickle.load(f)
+	except FileNotFoundError:
 
-	# rename to fit DataSetClass
-	df.rename(columns={'utc_timestamp': 'date'}, inplace=True)
-	df['date'] = pd.to_datetime(df['date'])
+		df = pd.read_csv(filename)
+
+		# drop second timestamp column
+		df = df.drop('cet_cest_timestamp', axis=1)
+		df = df.drop('interpolated', axis=1)
+
+		# rename to fit DataSetClass
+		df.rename(columns={'utc_timestamp': 'date'}, inplace=True)
+		df['date'] = pd.to_datetime(df['date'])
 
 
 
-    # drop columns with more than 90% missing values
-	threshold = 0.7 * len(df)
-	columns_to_drop = df.columns[df.isna().sum() > threshold]
-	df = df.drop(columns=columns_to_drop)
+		# drop columns with more than 70% missing values
+		threshold = 0.7 * len(df)
+		columns_to_drop = df.columns[df.isna().sum() > threshold]
+		df = df.drop(columns=columns_to_drop)
 
-	print("Columns dropped: ", len(columns_to_drop))
+		print("Columns dropped: ", len(columns_to_drop))
 
-	# drop rows at start and end with too many nan
-	counter_start = 0
-	while df.iloc[0].isnull().mean() > 0.20:
-		df.drop(df.index[0], inplace=True)
-		counter_start +=1
-	print("start rows removed: ", counter_start)
+		# drop rows at start and end with too many nan
+		counter_start = 0
+		while df.iloc[0].isnull().mean() > 0.20:
+			df.drop(df.index[0], inplace=True)
+			counter_start +=1
+		print("start rows removed: ", counter_start)
 
-	counter_end = 0
-	while df.iloc[-1].isnull().mean() > 0.20:
-		df.drop(df.index[-1], inplace=True)
-		counter_end += 1
-	print("end rows removed: ", counter_end)
+		counter_end = 0
+		while df.iloc[-1].isnull().mean() > 0.20:
+			df.drop(df.index[-1], inplace=True)
+			counter_end += 1
+		print("end rows removed: ", counter_end)
 
-	# forward fill if previous values are present
-	df = df.fillna(method='ffill')
+		# forward fill if previous values are present
+		df = df.fillna(method='ffill')
 
-    # values at the start are set to zero, no more NANs
-	df = df.fillna(0)
+		# values at the start are set to zero, no more NANs
+		df = df.fillna(0)
 
-    # Sort the DataFrame based on the 'date' column
-	df = df.sort_values(by='date')
+		# Sort the DataFrame based on the 'date' column
+		df = df.sort_values(by='date')
 
-	df = df.drop(columns=['date'])
+		df = df.drop(columns=['date'])
 
-	data_array = df.values
-	data_tensor = torch.tensor(data_array, dtype=torch.float32)
+		data_array = df.values
+		data_tensor = torch.tensor(data_array, dtype=torch.float32)
+	
+		# save for faster laoding
+		with open(pickle_name, 'wb') as f:
+			pickle.dump(data_tensor, f)
 
 	return data_tensor
 
@@ -401,6 +414,10 @@ def load_genome_project_data():
 		# Save the tensor
 		with open(pickle_name, 'wb') as f:
 			pickle.dump(data_tensor, f)
+
+	# drop id that is only 0 in train set
+	bad_id = 707
+	data_tensor = torch.cat([data_tensor[:,:bad_id], data_tensor[:,bad_id+1:]], dim=1)
 
 	return data_tensor
 

@@ -54,33 +54,13 @@ Exceptions from the default to share the full text of a thesis require the appro
 
 # Working with the repo
 ## Dependencies
-Which Python version is required?
-
-Does a repository have information on dependencies or instructions on how to set up the environment?
+The code was written using Python 3.10 on Linux.
 
 ## Setup
-[This is an example]
-
 Clone this repository
 
-Create an virtual environment and activate it
-
-python -m venv thesis-env
-source thesis-env/bin/activate
-Install requirements
-pip install --upgrade pip
-pip install -r requirements.txt
-Reproducing results
-Describe steps how to reproduce your results.
-
-Here are some examples:
-
-Paperswithcode
-ML Reproducibility Checklist
-Simple & clear Example from Paperswithcode (!)
-Example TensorFlow
-Training code
-Does a repository contain a way to train/fit the model(s) described in the paper?
+Run 'setup.sh' to create the nessesary folders, download the datasets and create a virtual enviroment with correct dependencies.
+If the download does not work, comment the parts and make sure the datasets are available in the references data folders
 
 ## Evaluation code
 Does a repository contain a script to calculate the performance of the trained model(s) or run experiments on models?

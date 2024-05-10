@@ -32,44 +32,45 @@ def fast_eval(model, dataloader, device):
 				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target)
 
 	preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
-	print(F"Validation metrics: {preds_dict}")
+	print(F"Validation metrics: {preds_dict[96]}")
 	return preds_dict
 
 
 def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, writer, checkpoint_path=None):
 	global_step = 0
-	model.train()
 	total_loss = 0
 	best_val_loss = 10000
 	
-	for input, target in tqdm(dataloader_train, desc=f"Epoch: {epoch}"):
-		optimizer.zero_grad()
-		if len(target) == 4:
-			loss = model(input.to(device), (target[0].to(device), target[1].to(device), target[2].to(device), target[3].to(device)))
-		else:
-			loss = model(input.to(device), target.to(device))
+	for epoch in range(1, epoch + 1):
+		total_loss = 0
+		model.train()
+		for input, target in tqdm(dataloader_train, desc=f"Epoch: {epoch}"):
+			optimizer.zero_grad()
+			if len(target) == 4:
+				loss = model(input.to(device), (target[0].to(device), target[1].to(device), target[2].to(device), target[3].to(device)))
+			else:
+				loss = model(input.to(device), target.to(device))
+			
+			loss.backward()
+			optimizer.step()
+			total_loss += loss.item()
+
+			global_step+=1
+
+		scheduler.step()
 		
-		loss.backward()
-		optimizer.step()
-		total_loss += loss.item()
+		writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
 
-		lr =  optimizer.param_groups[0]['lr']
-		global_step+=1
+		eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 
-	#print(f'Epoch {epoch}, MSE-Loss: {total_loss / (len(dataloader_train) * 4)}, LR: {lr}')
+		# safe best model measured on validation datasplit
+		val_loss = eval_metrics_dict[96]["mse"].item()
+		if  val_loss < best_val_loss:
+			best_model = model
+			best_val_loss = val_loss
+			helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, checkpoint_path)
 
-	scheduler.step()
-	
-	writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
-
-
-	eval_metrics_dict = fast_eval(model, dataloader_validation, device)
-
-	if eval_metrics_dict[96]["mse"].item() < best_val_loss:
-		best_model = model
-		helpers.create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, checkpoint_path)
-
-	writer.add_scalar('Loss/validation', (eval_metrics_dict[96]["mse"].item()), epoch)
+		writer.add_scalar('Loss/validation', (eval_metrics_dict[96]["mse"].item()), epoch)
 	writer.close()
 
 	return eval_metrics_dict, best_model
