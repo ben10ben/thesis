@@ -32,8 +32,9 @@ CONFIG_OUTPUT_PATH = {
 			"base"					: WORKING_DIR / "outputs/results/base/",
 			"iTransformer_baseline" : WORKING_DIR / "outputs/results/iTransformer_baseline/",
 			"arima" 				: WORKING_DIR / "outputs/results/arima/",
-			"iTransformer_split_dataset_tl" : WORKING_DIR / "outputs/results/iTransformer_split_dataset_tl",
+			"iTransformer_split_dataset_tl" : WORKING_DIR / "outputs/results/iTransformer_split_dataset_tl/",
 			"TimeGPT"			: WORKING_DIR / "outputs/results/timegpt/",
+			"darts"					: WORKING_DIR / "outputs/results/darts/"
 
 
 			}

@@ -1,0 +1,7 @@
+target_dataset, source_dataset, iTransformer, iTransformer_tuned, NBEATS, NBEATS_tuned, NHITS, NHITS_tuned, TSMixer, TSMixer_tuned, ARIMA, TimeGPT
+electricity, bavaria, mse()/mae(),
+electricity, GP2,  mse(0.)/mae(0.),
+bavaria,    electricity,  mse(0.)/mae(0.),
+bavaria,    GP2,   mse(0.)/mae(0.),
+GP2,        electricity,  mse(0.)/mae(0.),
+GP2,        bavaria,   mse(0.)/mae(0.),
