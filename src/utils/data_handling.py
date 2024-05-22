@@ -99,13 +99,13 @@ def format_electricity():
 	
 	try:
 		dataset_dict = {
-			"train" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_train.csv", index_col=False),
-			"validation" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_val.csv", index_col=False),
-			"test" : pd.read_csv(CONFIG_DATA["electricity"] / "electricity_test.csv", index_col=False)
+			"train" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_train.csv", index_col=False),
+			"validation" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_val.csv", index_col=False),
+			"test" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_test.csv", index_col=False)
 			}
 	
 	except FileNotFoundError:
-		df = pd.read_csv(CONFIG_DATA["electricity"] / "LD2011_2014.txt", index_col=0, sep=';', decimal=',')
+		df = pd.read_csv(CONFIG_DATA["ELD"] / "LD2011_2014.txt", index_col=0, sep=';', decimal=',')
 		df.index = pd.to_datetime(df.index)
 		df.sort_index(inplace=True)
 
@@ -165,14 +165,14 @@ def format_electricity():
 		print("Saving train, validation and test df for faster loading")
 		for key, value in dataset_dict.items():
 			dataset_dict[key] = value.reset_index(drop=True)
-			value.to_csv(CONFIG_DATA["electricity"] / f"{key}.csv", sep=',', index=False)
+			value.to_csv(CONFIG_DATA["ELD"] / f"{key}.csv", sep=',', index=False)
 
 	return dataset_dict
 
 def load_electricity(standardize=True):
 	try:
         # Specify the file path where you want to save the dictionary
-		file_path = CONFIG_DATA["electricity"] / "electricity_dict.pkl"
+		file_path = CONFIG_DATA["ELD"] / "electricity_dict.pkl"
 
         # Load the dictionary from the file using pickle.load
 		with open(file_path, 'rb') as file:
@@ -305,9 +305,9 @@ def load_bavaria_electricity():
 	"""
 	returns 2D tensor of (timeseries x ID)
 	"""
-	filename = CONFIG_DATA["south_germany"] / "south_germany.csv"
+	filename = CONFIG_DATA["Bavaria"] / "south_germany.csv"
 
-	pickle_name = CONFIG_DATA["south_germany"] / "south_germany_tensor.pkl"
+	pickle_name = CONFIG_DATA["Bavaria"] / "south_germany_tensor.pkl"
 
 	try:
 		# Load the tensor
@@ -368,9 +368,9 @@ def load_bavaria_electricity():
 	return data_tensor
 
 def load_genome_project_data():
-	filename = CONFIG_DATA["genome_project"] / "genome_project_dataset.csv"
+	filename = CONFIG_DATA["GP2"] / "genome_project_dataset.csv"
 
-	pickle_name = CONFIG_DATA["genome_project"] / "genome_project_dataset.pkl"
+	pickle_name = CONFIG_DATA["GP2"] / "genome_project_dataset.pkl"
 
 
 	try:

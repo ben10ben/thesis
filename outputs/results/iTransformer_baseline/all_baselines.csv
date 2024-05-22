@@ -1,8 +1,0 @@
-dataset, horizon, iTransformer,                     Transformer,                NBEATS,                 NHITS,                  TSMixer,       ARIMA, TimeGPT
-electricity, short, mse(0.252)/mae(0.339),      mse(0.440)/mae(0.466),      mse(1.223)/mae(0.887), mse(0.382)/mae(0.429), mse(0.349)/mae(0.397)
-electricity, long,  mse(0.180)/mae(0.265),      mse(0.314)/mae(0.366),      mse(0.992)/mae(0.821), mse(0.254)/mae(0.340), mse(0.232)/mae(0.314)
-bavaria,    short,  mse(0.00129)/mae(0.02676),  mse(0.00049)/mae(0.01075),  mse(0.00065)/mae(0.01329), mse(0.00035)/mae(0.01035), mse(0.00049)/mae(0.01117),
-bavaria,    long,   mse(0.00129)/mae(0.02676),  mse(0.00031)/mae(0.00910),  mse(0.00033)/mae(0.01011), mse(0.00029)/mae(0.00912), mse(0.00035)/mae(0.01005),
-GP2,        short,  mse(0.528)/mae(0.405),  	mse(0.924)/mae(0.543),      mse(1.1e+16)/mae(4.9e+6), mse(0.826)/ mae(0.539), mse(0.989)/mae(0.573)
-GP2,        long,   mse(0.463)/mae(0.351),      mse(0.614)/mae(0.418),      mse(6.9e+11)/mae(452582.2), mse(0.658)/mae(0.463), mse(0.737)/mae(0.461)
-

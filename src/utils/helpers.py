@@ -85,7 +85,7 @@ def percentile(predictions, targets, percentile_value):
     return torch.quantile(errors, percentile_value)
 
     
-def full_eval(model, dataloader, device):
+def full_eval(model, dataloader, device, easy_output=True):
 	model.eval()
 	preds_dict = {
 		96 : {
@@ -130,5 +130,6 @@ def full_eval(model, dataloader, device):
 	preds_dict[length]["p50"] = preds_dict[length]["p50"]  / len(dataloader)
 	preds_dict[length]["p90"] = preds_dict[length]["p90"] / len(dataloader)
 
-	
+	if easy_output == True:
+		return preds_dict[96]["mse"].item(), preds_dict[96]["mae"].item()
 	return preds_dict
