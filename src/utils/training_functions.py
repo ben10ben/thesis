@@ -36,8 +36,8 @@ def fast_eval(model, dataloader, device):
 	return preds_dict
 
 
-def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, scheduler, \
-					writer, checkpoint_path=None, save_model=True, validate=True):
+def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, \
+					checkpoint_path=None, save_model=True, validate=True):
 	global_step = 0
 	total_loss = 0
 	best_val_loss = 99999999
@@ -59,24 +59,22 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 			total_loss += loss.item()
 
 			global_step+=1
-
-		scheduler.step()
 		
-		writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
+	#	writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
 
 		if validate==True:
 			eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 			val_loss = eval_metrics_dict[96]["mse"].item()
-			writer.add_scalar('Loss/validation', (val_loss), epoch)
+#			writer.add_scalar('Loss/validation', (val_loss), epoch)
 			if  val_loss < best_val_loss:
 				best_model = model
 				best_val_loss = val_loss
 			if save_model==True:
-				helpers.create_checkpoint(best_model, optimizer, scheduler, epoch, loss, global_step, checkpoint_path)
+				helpers.create_checkpoint(best_model, optimizer, epoch, loss, global_step, checkpoint_path)
 		else:
 			eval_metrics_dict = None
 		
-	writer.close()
+#	writer.close()
 
 	if best_model != None:
 		return eval_metrics_dict, best_model

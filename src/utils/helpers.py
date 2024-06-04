@@ -6,11 +6,10 @@ import torch
 from tqdm import tqdm
 import torch.nn.functional as F
 
-def create_checkpoint(model, optimizer, scheduler, epoch, loss, global_step, path):
+def create_checkpoint(model, optimizer, epoch, loss, global_step, path):
 	checkpoint = {
 		'model_state_dict': model.state_dict(),
 		'optimizer_state_dict': optimizer.state_dict(),
-		'scheduler_state_dict' : scheduler.state_dict(),
 		'epoch': epoch,
 		'loss': loss,
 		'global_step_writer' : global_step,

@@ -21,7 +21,8 @@ CONFIG_MODEL_LOCATION = {
 			"stationary"			: WORKING_DIR / "outputs/models/stationary/",
 			"revin"					: WORKING_DIR / "outputs/models/revin/",
 			"base"					: WORKING_DIR / "outputs/models/base/",
-			"itransformer" : WORKING_DIR / "outputs/models/itransformer/",
+			"itransformer" 			: WORKING_DIR / "outputs/models/itransformer/",
+			"darts" 				: WORKING_DIR / "outputs/models/darts/",
 
 			}
 
