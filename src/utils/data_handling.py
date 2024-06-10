@@ -99,9 +99,9 @@ def format_electricity():
 	
 	try:
 		dataset_dict = {
-			"train" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_train.csv", index_col=False),
-			"validation" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_val.csv", index_col=False),
-			"test" : pd.read_csv(CONFIG_DATA["ELD"] / "electricity_test.csv", index_col=False)
+			"train" : pd.read_csv(CONFIG_DATA["ELD"] / "train.csv", index_col=False),
+			"validation" : pd.read_csv(CONFIG_DATA["ELD"] / "validation.csv", index_col=False),
+			"test" : pd.read_csv(CONFIG_DATA["ELD"] / "test.csv", index_col=False)
 			}
 	
 	except FileNotFoundError:
