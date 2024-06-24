@@ -71,7 +71,7 @@ Use `Process_results.ipynb` to load all outputs and process outputs for final ta
 
 # Results
 ![Case study on BDGP2 dataset](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/startup_strategies_mae.png)
-![Transfer learning between ELD and BDGP2 with iTransformer and TSMixer](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/tl_tablegp2.png)
+![Transfer learning between ELD and BDGP2 with iTransformer and TSMixer](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/tl_table_gp2_eld.png)
 
 # Project structure
 
