@@ -36,7 +36,7 @@ The "Building Data Genome Project 2" dataset is used for a case study where we s
 # Working with the repo
 
 ## Dependencies
-The code was written using Python 3.10 on Linux.
+The code was written using Python 3.10 on Linux. Dependencies are defined in the requirements file. 
 
 ## Setup
 - Clone this repository
