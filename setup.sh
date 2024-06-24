@@ -3,10 +3,6 @@ mkdir data/ELD
 mkdir data/Bavaria
 mkdir data/GP2
 
-mkdir outputs/models
-mkdir outputs/models/itransformer
-mkdir outputs/models/darts
-
 #download electricity dataset
 wget "https://archive.ics.uci.edu/ml/machine-learning-databases/00321/LD2011_2014.txt.zip" -O temp.zip
 unzip temp.zip -d data/ELD
@@ -23,7 +19,7 @@ wget https://data.open-power-system-data.org/household_data/2020-04-15/household
 # use this for pip
 python3.10 -m venv myenv
 source myenv/bin/activate
-pip install --upgrade pip
+#pip install --upgrade pip
 pip3 install -r requirements.txt
 
 # use this if you prefer conda

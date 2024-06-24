@@ -15,3 +15,6 @@ nbformat>=4.2.0
 torchmetrics==1.2.1
 pmdarima==2.0.4
 darts==0.29.0
+pickle
+shutil
+nixtlats

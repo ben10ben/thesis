@@ -8,7 +8,6 @@ __pycache__
 iTransformer
 t14_github
 t14_github.pub
-outputs/models
 outputs/training_logs
 logs
 tuning_logs
