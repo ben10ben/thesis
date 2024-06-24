@@ -70,7 +70,8 @@ Use `darts_with_checkpointing.ipynb` to forecast using the NHits/Transformer/TSM
 Use `Process_results.ipynb` to load all outputs and process outputs for final tables and visualisaiton and to calculate the metrics 'jumpstart' and 'asymptotic performance'
 
 # Results
-![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/startup_strategies_mae.png)
+![Case study on BDGP2 dataset](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/startup_strategies_mae.png)
+![Transfer learning between ELD and BDGP2 with iTransformer and TSMixer](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/tl_tablegp2.png)
 
 # Project structure
 
