@@ -37,6 +37,7 @@ The "Building Data Genome Project 2" dataset is used for a case study where we s
 
 
 # Working with the repo
+
 ## Dependencies
 The code was written using Python 3.10 on Linux.
 
@@ -54,7 +55,7 @@ bash setup.sh
 
 For each experiment, we have one Jupyter Notebook which mostly can be executed individually.
 
-# Calculate ARIMA results
+## Run experiments
 Use the `arima_baselines.ipynb` notebook to fit a model for each dataset seris and predict on the test split without re-fitting.
 
 Use `TimeGPT_baseline.ipynb` to process all datasets to the requested format by TimeGPT, do forecasts using the API and save the results.
