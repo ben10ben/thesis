@@ -9,12 +9,11 @@ tqdm==4.64.1
 IPython==8.17.2
 jupyter_client==8.6.0
 jupyter_core==5.5.0
-iTransformer
+iTransformer==0.4.1
 plotly==5.18.0
 nbformat>=4.2.0
 torchmetrics==1.2.1
 pmdarima==2.0.4
 darts==0.29.0
-pickle
-shutil
-nixtlats
+nixtlats==0.5.1
+ipykernel
