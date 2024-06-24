@@ -22,7 +22,7 @@ Example results on the BDGP2 dataset using different training strategies:
 
 
 # Summary
-Keywords: building eletric load forecastng, global time series forecasting, multivariate, deep transfer learning, pre-trained models, foundation models
+**Keywords**: building eletric load forecastng, global time series forecasting, multivariate, deep transfer learning, pre-trained models, foundation models
 
 This repository implements the experiments as descriped in the research paper provided. 
 
