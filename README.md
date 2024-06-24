@@ -11,9 +11,9 @@ Author: Benedikt Rein
 
 
 # Table of Content
-Summary
-Working with the repo
-Dependencies
+- [Summary](#Summary)
+- [Working with the repo](#working-with-the-repo)
+    - [Dependencies](#Dependencies)
 Setup
 Reproducing results
     ARIMA baseline
@@ -76,15 +76,15 @@ Use `Process_results.ipynb` to load all outputs and process outputs for final ta
 # Project structure
 
 ├── README.md
-├── requirements.txt                                -- required libraries
-├── setup.sh                                        -- setup script to download data, create folders, create venv
-├── data                                            -- stores the used datasets
-├── outputs                                         -- stores all outputs
-    ├──models                                       -- stores pre-trained models for later use or checkpointing
-    ├──results                                      -- stores predictions and forecasitng metrics
-        ├──final_outputs                            -- stores final output tables and visuals for paper
-└── src                                             -- all code used for the research
-    ├── arima_baselines.ipynb                       -- ARIMA baseline experiments
+├── requirements.txt                                -- required libraries\
+├── setup.sh                                        -- setup script to download data, create folders, create venv\
+├── data                                            -- stores the used datasets\
+├── outputs                                         -- stores all outputs  
+    ├──models                                       -- stores pre-trained models for later use or checkpointing  
+    ├──results                                      -- stores predictions and forecasitng metrics  
+        ├──final_outputs                            -- stores final output tables and visuals for paper  
+└── src                                             -- all code used for the research  
+    ├── arima_baselines.ipynb                       -- ARIMA baseline experiments  
     ├── TimeGPT_baseline.ipynb                      -- TimeGPT baseline experiments 
     ├── iTransformer_baselines.ipynb                -- iTransformer baseline and model checkpoints
     ├── iTransformer_full_tl.ipynb                  -- iTransformer transfer learning 
