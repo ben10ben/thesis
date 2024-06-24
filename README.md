@@ -77,8 +77,8 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 # Project structure
 
 ├── README.md\
-├── requirements.txt &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- required libraries\
-├── setup.sh &ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- setup script to download data, create venv\
+├── requirements.txt &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- required libraries\
+├── setup.sh &nbsp;&ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- setup script to download data, create venv\
 ├── data &ensp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores the used datasets\
 └── outputs &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores all outputs\
 &emsp;├── models &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores pre-trained models for later use\
