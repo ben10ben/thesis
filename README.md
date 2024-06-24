@@ -85,10 +85,10 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 &emsp;└── results &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores predictions and forecasitng metrics\
 &emsp;└── final_outputs &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores tables and visuals for paper\
 └── src &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- all code used for the research\
-&emsp;├── arima_baselines.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- ARIMA baseline experiments\
+&emsp;├── arima_baselines.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- ARIMA baseline experiments\
 &emsp;├── TimeGPT_baseline.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;-- TimeGPT baseline experiments\
 &emsp;├── iTransformer_baselines.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;-- iTransformer baseline and checkpointing\
-&emsp;├── iTransformer_full_tl.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
+&emsp;├── iTransformer_full_tl.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
 &emsp;├── darts_with_checkpointing.ipynb &nbsp;&nbsp;&nbsp;&emsp;-- NHits/Transformer/TSMixer baseline and TL\
 &emsp;└── process_results.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- merge results, create tables and plots\
 &emsp;└── helpers &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- functions and classes used in the project\
