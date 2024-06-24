@@ -80,12 +80,12 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 ├── requirements.txt &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- required libraries\
 ├── setup.sh &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- setup script to download data, create venv\
 ├── data &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores the used datasets\
-└── outputs &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores all outputs\
+└── outputs &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores all outputs\
 &emsp;├── models &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores pre-trained models for later use\
-&emsp;└── results &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores predictions and forecasitng metrics\
-&emsp;└── final_outputs &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores tables and visuals for paper\
+&emsp;└── results &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores predictions and forecasitng metrics\
+&emsp;└── final_outputs &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- stores tables and visuals for paper\
 └── src &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- all code used for the research\
-&emsp;├── arima_baselines.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;-- ARIMA baseline experiments\
+&emsp;├── arima_baselines.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- ARIMA baseline experiments\
 &emsp;├── TimeGPT_baseline.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;-- TimeGPT baseline experiments\
 &emsp;├── iTransformer_baselines.ipynb &emsp;&emsp;&emsp;&emsp;-- iTransformer baseline and checkpointing\
 &emsp;├── iTransformer_full_tl.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
