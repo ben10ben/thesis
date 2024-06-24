@@ -96,4 +96,4 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 &emsp;├── darts_no_checkpoint.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;-- NHits/Transformer/TSMixer experiments using last model\
 &emsp;├── exploratory &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- dataset exploration and visualisation of data processing\
 &emsp;├── reproduce_eld.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer on multiple horizons and compare normalisation\
-&emsp;└── tl_split_dataset.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning after splitting dataset on ids\
+&emsp;└── tl_split_dataset.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning after splitting dataset on ids
