@@ -77,23 +77,23 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 # Project structure
 
 ├── README.md\
-├── requirements.txt                                -- required libraries\
-├── setup.sh                                        -- setup script to download data, create folders, create venv\
-├── data                                            -- stores the used datasets\
-├── outputs                                         -- stores all outputs\
-    ├──models                                       -- stores pre-trained models for later use or checkpointing\
-    ├──results                                      -- stores predictions and forecasitng metrics\
-        ├──final_outputs                            -- stores final output tables and visuals for paper\  
-└── src                                             -- all code used for the research\
-    ├── arima_baselines.ipynb                       -- ARIMA baseline experiments\
-    ├── TimeGPT_baseline.ipynb                      -- TimeGPT baseline experiments\ 
-    ├── iTransformer_baselines.ipynb                -- iTransformer baseline and model checkpoints\
-    ├── iTransformer_full_tl.ipynb                  -- iTransformer transfer learning\
-    ├── darts_with_checkpointing.ipynb              -- NHits/Transformer/TSMixer baseline and transfer learning\
-    ├── process_results.ipynb                       -- merge results, create tables and plots\
-        └── helpers                                 -- functions and classes used in the project\
-└── additional                                      -- deprecated experiments not used for research but potentially interesting\
-    ├── darts_without_checkpointing.ipynb           -- NHits/Transformer/TSMixer baselines and experiments using the last model instead of best\
-    ├── exploratory                                 -- dataset exploration and visualisation of data pre-processing\
-    ├── reproduce_electricityresults.ipynb          -- train iTransformer on multiple forecasting horizons and compare normalisation strategies\
-    └── transfer_learning_split_dataset.ipynb       -- iTransformer transfer learning after splitting a dataset on ids\
+├── requirements.txt                        -- required libraries\
+├── setup.sh                                -- setup script to download data, create venv\
+├── data                                    -- stores the used datasets\
+├── outputs                                 -- stores all outputs\
+    ├──models                               -- stores pre-trained models for later use\
+    ├──results                              -- stores predictions and forecasitng metrics\
+        ├──final_outputs                    -- stores tables and visuals for paper\  
+└── src                                     -- all code used for the research\
+    ├── arima_baselines.ipynb               -- ARIMA baseline experiments\
+    ├── TimeGPT_baseline.ipynb              -- TimeGPT baseline experiments\ 
+    ├── iTransformer_baselines.ipynb        -- iTransformer baseline and checkpointing\
+    ├── iTransformer_full_tl.ipynb          -- iTransformer transfer learning\
+    ├── darts_with_checkpointing.ipynb      -- NHits/Transformer/TSMixer baseline and TL\
+    ├── process_results.ipynb               -- merge results, create tables and plots\
+        └── helpers                         -- functions and classes used in the project\
+└── additional                              -- deprecated experiments not used for research\
+    ├── darts_no_checkpoint.ipynb           -- NHits/Transformer/TSMixer experiments using last model\
+    ├── exploratory                         -- dataset exploration and visualisation of data processing\
+    ├── reproduce_eld.ipynb                 -- iTransformer on multiple horizons and compare normalisation\
+    └── tl_split_dataset.ipynb              -- iTransformer transfer learning after splitting dataset on ids\
