@@ -7,22 +7,19 @@ Author: Benedikt Rein
 
 2nd Examiner: Prof. Dr. Fabian
 
-![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/target_GP2.png)
+Example results on the BDGP2 dataset using different training strategies:
+![Results on BDGP2 dataset](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/target_GP2.png)
 
 
 # Table of Content
 - [Summary](#Summary)
 - [Working with the repo](#working-with-the-repo)
     - [Dependencies](#Dependencies)
-Setup
-Reproducing results
-    ARIMA baseline
-    TimeGPT baseline
-    iTransformer baseline
-    iTransformer Transfer Learning
-    NHits/Transformer/TSMixer using Darts library
-    Process and visualise outputs
-Results
+    - [Setup](#Setup)
+    - [Run experiments](#Run-experiments)
+- [Results](#Results)
+- [Project Structure](#Project-structure)
+
 
 # Summary
 Keywords: building eletric load forecastng, global time series forecasting, multivariate, deep transfer learning, pre-trained models, foundation models
@@ -70,29 +67,33 @@ Use `darts_with_checkpointing.ipynb` to forecast using the NHits/Transformer/TSM
 Use `Process_results.ipynb` to load all outputs and process outputs for final tables and visualisaiton and to calculate the metrics 'jumpstart' and 'asymptotic performance'
 
 # Results
+
+Results for the case study using the BDGP2, comparing 2 pre-trained iTransformer models against a non-pre-trained baseline.
 ![Case study on BDGP2 dataset](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/startup_strategies_mae.png)
+
+Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between MSE)
 ![Transfer learning between ELD and BDGP2 with iTransformer and TSMixer](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/tl_table_gp2_eld.png)
 
 # Project structure
 
-├── README.md
+├── README.md\
 ├── requirements.txt                                -- required libraries\
 ├── setup.sh                                        -- setup script to download data, create folders, create venv\
 ├── data                                            -- stores the used datasets\
-├── outputs                                         -- stores all outputs  
-    ├──models                                       -- stores pre-trained models for later use or checkpointing  
-    ├──results                                      -- stores predictions and forecasitng metrics  
-        ├──final_outputs                            -- stores final output tables and visuals for paper  
-└── src                                             -- all code used for the research  
-    ├── arima_baselines.ipynb                       -- ARIMA baseline experiments  
-    ├── TimeGPT_baseline.ipynb                      -- TimeGPT baseline experiments 
-    ├── iTransformer_baselines.ipynb                -- iTransformer baseline and model checkpoints
-    ├── iTransformer_full_tl.ipynb                  -- iTransformer transfer learning 
-    ├── darts_with_checkpointing.ipynb              -- NHits/Transformer/TSMixer baseline and transfer learning
-    ├── process_results.ipynb                       -- merge results, create tables and plots
-        └── helpers                                 -- functions and classes used in the project
-└── additional                                      -- deprecated experiments not used for research but potentially interesting
-    ├── darts_without_checkpointing.ipynb           -- NHits/Transformer/TSMixer baselines and experiments using the last model instead of best
-    ├── exploratory                                 -- dataset exploration and visualisation of data pre-processing
-    ├── reproduce_electricityresults.ipynb          -- train iTransformer on multiple forecasting horizons and compare normalisation strategies
-    └── transfer_learning_split_dataset.ipynb       -- iTransformer transfer learning after splitting a dataset on ids
+├── outputs                                         -- stores all outputs\
+    ├──models                                       -- stores pre-trained models for later use or checkpointing\
+    ├──results                                      -- stores predictions and forecasitng metrics\
+        ├──final_outputs                            -- stores final output tables and visuals for paper\  
+└── src                                             -- all code used for the research\
+    ├── arima_baselines.ipynb                       -- ARIMA baseline experiments\
+    ├── TimeGPT_baseline.ipynb                      -- TimeGPT baseline experiments\ 
+    ├── iTransformer_baselines.ipynb                -- iTransformer baseline and model checkpoints\
+    ├── iTransformer_full_tl.ipynb                  -- iTransformer transfer learning\
+    ├── darts_with_checkpointing.ipynb              -- NHits/Transformer/TSMixer baseline and transfer learning\
+    ├── process_results.ipynb                       -- merge results, create tables and plots\
+        └── helpers                                 -- functions and classes used in the project\
+└── additional                                      -- deprecated experiments not used for research but potentially interesting\
+    ├── darts_without_checkpointing.ipynb           -- NHits/Transformer/TSMixer baselines and experiments using the last model instead of best\
+    ├── exploratory                                 -- dataset exploration and visualisation of data pre-processing\
+    ├── reproduce_electricityresults.ipynb          -- train iTransformer on multiple forecasting horizons and compare normalisation strategies\
+    └── transfer_learning_split_dataset.ipynb       -- iTransformer transfer learning after splitting a dataset on ids\
