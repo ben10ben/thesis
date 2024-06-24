@@ -80,17 +80,17 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 ├── requirements.txt                        -- required libraries\
 ├── setup.sh                                -- setup script to download data, create venv\
 ├── data                                    -- stores the used datasets\
-├── outputs                                 -- stores all outputs\
-    ├──models                               -- stores pre-trained models for later use\
-    ├──results                              -- stores predictions and forecasitng metrics\
-        ├──final_outputs                    -- stores tables and visuals for paper\
+└── outputs                                 -- stores all outputs\
+    ├── models                               -- stores pre-trained models for later use\
+    └── results                              -- stores predictions and forecasitng metrics\
+        └── final_outputs                    -- stores tables and visuals for paper\
 └── src                                     -- all code used for the research\
     ├── arima_baselines.ipynb               -- ARIMA baseline experiments\
     ├── TimeGPT_baseline.ipynb              -- TimeGPT baseline experiments\
     ├── iTransformer_baselines.ipynb        -- iTransformer baseline and checkpointing\
     ├── iTransformer_full_tl.ipynb          -- iTransformer transfer learning\
     ├── darts_with_checkpointing.ipynb      -- NHits/Transformer/TSMixer baseline and TL\
-    ├── process_results.ipynb               -- merge results, create tables and plots\
+    └── process_results.ipynb               -- merge results, create tables and plots\
         └── helpers                         -- functions and classes used in the project\
 └── additional                              -- deprecated experiments not used for research\
     ├── darts_no_checkpoint.ipynb           -- NHits/Transformer/TSMixer experiments using last model\
