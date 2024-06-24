@@ -77,23 +77,23 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 # Project structure
 
 ├── README.md\
-├── requirements.txt                        &emsp;-- required libraries\
-├── setup.sh                                &emsp;-- setup script to download data, create venv\
-├── data                                    &emsp;-- stores the used datasets\
-└── outputs                                 &emsp;-- stores all outputs\
-&ensp;├── models                            &emsp;-- stores pre-trained models for later use\
-&ensp;└── results                           &emsp;-- stores predictions and forecasitng metrics\
-&emsp;└── final_outputs                     &emsp;-- stores tables and visuals for paper\
-└── src                                     &emsp;-- all code used for the research\
-&ensp;├── arima_baselines.ipynb             &emsp;-- ARIMA baseline experiments\
-&ensp;├── TimeGPT_baseline.ipynb            &emsp;-- TimeGPT baseline experiments\
-&ensp;├── iTransformer_baselines.ipynb      &emsp;-- iTransformer baseline and checkpointing\
-&ensp;├── iTransformer_full_tl.ipynb        &emsp;-- iTransformer transfer learning\
-&ensp;├── darts_with_checkpointing.ipynb    &emsp;-- NHits/Transformer/TSMixer baseline and TL\
-&ensp;└── process_results.ipynb             &emsp;-- merge results, create tables and plots\
-&emsp;└── helpers                           &emsp;-- functions and classes used in the project\
-└── additional                              &emsp;-- deprecated experiments not used for research\
-&ensp;├── darts_no_checkpoint.ipynb         &emsp;-- NHits/Transformer/TSMixer experiments using last model\
-&ensp;├── exploratory                       &emsp;-- dataset exploration and visualisation of data processing\
-&ensp;├── reproduce_eld.ipynb               &emsp;-- iTransformer on multiple horizons and compare normalisation\
-&ensp;└── tl_split_dataset.ipynb            &emsp;-- iTransformer transfer learning after splitting dataset on ids\
+├── requirements.txt                   &ensp;     &emsp;-- required libraries\
+├── setup.sh                           &ensp;     &emsp;-- setup script to download data, create venv\
+├── data                               &ensp;     &emsp;-- stores the used datasets\
+└── outputs                            &ensp;     &emsp;-- stores all outputs\
+&ensp;&ensp;├── models                 &ensp;           &emsp;-- stores pre-trained models for later use\
+&ensp;&ensp;└── results                &ensp;           &emsp;-- stores predictions and forecasitng metrics\
+&emsp;&ensp;└── final_outputs          &ensp;           &emsp;-- stores tables and visuals for paper\
+└── src                                &ensp;     &emsp;-- all code used for the research\
+&ensp;├── arima_baselines.ipynb        &ensp;     &emsp;-- ARIMA baseline experiments\
+&ensp;├── TimeGPT_baseline.ipynb       &ensp;     &emsp;-- TimeGPT baseline experiments\
+&ensp;├── iTransformer_baselines.ipynb &ensp;     &emsp;-- iTransformer baseline and checkpointing\
+&ensp;├── iTransformer_full_tl.ipynb   &ensp;     &emsp;-- iTransformer transfer learning\
+&ensp;├── darts_with_checkpointing.ipynb&ensp;    &emsp;-- NHits/Transformer/TSMixer baseline and TL\
+&ensp;└── process_results.ipynb        &ensp;     &emsp;-- merge results, create tables and plots\
+&emsp;└── helpers                       &ensp;    &emsp;-- functions and classes used in the project\
+└── additional                          &ensp;    &emsp;-- deprecated experiments not used for research\
+&ensp;&ensp;├── darts_no_checkpoint.ipynb &ensp;        &emsp;-- NHits/Transformer/TSMixer experiments using last model\
+&ensp;&ensp;├── exploratory               &ensp;        &emsp;-- dataset exploration and visualisation of data processing\
+&ensp;&ensp;├── reproduce_eld.ipynb       &ensp;        &emsp;-- iTransformer on multiple horizons and compare normalisation\
+&ensp;&ensp;└── tl_split_dataset.ipynb    &ensp;        &emsp;-- iTransformer transfer learning after splitting dataset on ids\
