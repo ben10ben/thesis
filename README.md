@@ -1,26 +1,4 @@
-TODO
-
-automate model saving with sensible names
-
-check if bavaria is loaded correctly and somewhat similar to electricity
-
-visualize eu elec
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Title
+# Multivariate Deep Transfer Learning for Robust Building Electric Load Forecasting
 Type: Master's Thesis
 
 Author: Benedikt Rein
@@ -29,7 +7,7 @@ Author: Benedikt Rein
 
 2nd Examiner: Prof. Dr. Fabian
 
-![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/target_ELD.png)
+![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/target_GP2.png)
 
 
 # Table of Content
@@ -54,6 +32,7 @@ This repository implements the experiments as descriped in the research paper pr
 With increased smart load measuring infrastructure and more indivisualised consumption patterns due to decentralised solar produciton and charging of electric vehicles, entity specific forecasting becomes even more crucial for efficient grid opperation. Modelling thouands of covariates and handling of indivisualised statistic models becomes impractical, incentivising the use of channel-depdendent multivariate forecasting to capture channel interactions instead of extensive covariate modelling. New infrastructure or new smart-meters lack entity-specific data, leading us to also include transfer learning for the evaluation.
 
 We evaluate multiple deep learning models, SARIMA and the pre-trained model TimeGPT on the building electric load forecasting task. We benchmark all deep learning models without transfer learning against multiple transfer learning approaches. We evaluate the metrics "Jumpstart" and "Asymptotic Performance". We can show significant improvements on the 2 widely used datasets, especially with TSMixer and iTransformer. The lesser known and irregular dataset shows the intricacy and complexitx of transfer learning as explored in the paper.
+
 The "Building Data Genome Project 2" dataset is used for a case study where we show the potential to increase predictive performance during the first year of measurement by up to 29% or 1.6 % of MAPE, which equals savings of around 35 USD per building.  
 
 
@@ -62,9 +41,9 @@ The "Building Data Genome Project 2" dataset is used for a case study where we s
 The code was written using Python 3.10 on Linux.
 
 ## Setup
-Clone this repository
+- Clone this repository
 
-Run `setup.sh` to create the nessesary folders, download the datasets and create a virtual enviroment with correct dependencies.
+- Run `setup.sh` to create the nessesary folders, download the datasets and create a virtual enviroment with correct dependencies.
 If the download does not work, make sure the datasets are available in the referenced data folders
 
 ```bash
@@ -90,7 +69,7 @@ Use `darts_with_checkpointing.ipynb` to forecast using the NHits/Transformer/TSM
 Use `Process_results.ipynb` to load all outputs and process outputs for final tables and visualisaiton and to calculate the metrics 'jumpstart' and 'asymptotic performance'
 
 # Results
-![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/target_ELD.png)
+![alt text](https://github.com/ben10ben/thesis/blob/master/outputs/results/final_outputs/startup_strategies_mae.png)
 
 # Project structure
 
