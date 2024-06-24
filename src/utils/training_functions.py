@@ -3,10 +3,10 @@ from utils import helpers
 from tqdm import tqdm
 import torch.nn.functional as F
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
 def fast_eval(model, dataloader, device):
+	"""
+	Evaluates a trained model on a dataloader
+	"""
 	model.eval()
 	preds_dict = {
 		96 : {"mse" : 0},
@@ -38,6 +38,13 @@ def fast_eval(model, dataloader, device):
 
 def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validation, optimizer, \
 					checkpoint_path=None, save_model=True, validate=True):
+	"""
+	Training function used for all iTransformer experients
+	Input:	-all needed classes and parameters for training
+	
+	Output: -eval metrics
+			-last or best model
+	"""
 	global_step = 0
 	total_loss = 0
 	best_val_loss = 99999999
@@ -60,12 +67,9 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 
 			global_step+=1
 		
-	#	writer.add_scalar('Loss/train', (total_loss/len(dataloader_train)), epoch)
-
 		if validate==True:
 			eval_metrics_dict = fast_eval(model, dataloader_validation, device)
 			val_loss = eval_metrics_dict[96]["mse"].item()
-#			writer.add_scalar('Loss/validation', (val_loss), epoch)
 			if  val_loss < best_val_loss:
 				best_model = model
 				best_val_loss = val_loss
@@ -74,7 +78,6 @@ def train_one_epoch(epoch, model, device, dataloader_train, dataloader_validatio
 		else:
 			eval_metrics_dict = None
 		
-#	writer.close()
 
 	if best_model != None:
 		return eval_metrics_dict, best_model

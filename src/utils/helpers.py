@@ -1,7 +1,6 @@
-from torch import save, mean, std, max, tensor
+from torch import save, mean, std, tensor
 import numpy as np
 from config import *
-import torch.nn as nn
 import torch
 from tqdm import tqdm
 import torch.nn.functional as F
@@ -84,7 +83,7 @@ def percentile(predictions, targets, percentile_value):
     return torch.quantile(errors, percentile_value)
 
     
-def full_eval(model, dataloader, device, easy_output=True):
+def full_eval(model, dataloader, device, easy_output=True, reduction="mean"):
 	model.eval()
 	preds_dict = {
 		96 : {
@@ -115,20 +114,21 @@ def full_eval(model, dataloader, device, easy_output=True):
 			for target, output in zip(targets, outputs.values()):
 				length = output.size(1)
 
-				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target)
-				preds_dict[length]["mae"] = preds_dict[length]["mae"] + F.l1_loss(output, target)
-				#preds_dict[length]["smape"] = preds_dict[length]["smape"] + helpers.symmetric_mean_absolute_percentage_error(output, target) #TODO correct the formula
+				preds_dict[length]["mse"] = preds_dict[length]["mse"] + F.mse_loss(output, target, reduction=reduction)
+				preds_dict[length]["mae"] = preds_dict[length]["mae"] + F.l1_loss(output, target, reduction=reduction)
 				preds_dict[length]["p10"] = preds_dict[length]["p10"] + percentile(output, target, 0.1)
 				preds_dict[length]["p50"] = preds_dict[length]["p50"] + percentile(output, target, 0.5)
 				preds_dict[length]["p90"] = preds_dict[length]["p90"] + percentile(output, target, 0.9)
 
-	preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
-	preds_dict[length]["mae"] = preds_dict[length]["mae"]  /  len(dataloader)
-	#preds_dict[length]["smape"] = preds_dict[length]["smape"] /  len(dataloader)
-	preds_dict[length]["p10"] = preds_dict[length]["p10"]  / len(dataloader)
-	preds_dict[length]["p50"] = preds_dict[length]["p50"]  / len(dataloader)
-	preds_dict[length]["p90"] = preds_dict[length]["p90"] / len(dataloader)
+	if reduction == "mean":
+		preds_dict[length]["mse"] = preds_dict[length]["mse"] /  len(dataloader)
+		preds_dict[length]["mae"] = preds_dict[length]["mae"]  /  len(dataloader)
+		preds_dict[length]["p10"] = preds_dict[length]["p10"]  / len(dataloader)
+		preds_dict[length]["p50"] = preds_dict[length]["p50"]  / len(dataloader)
+		preds_dict[length]["p90"] = preds_dict[length]["p90"] / len(dataloader)
 
 	if easy_output == True:
 		return preds_dict[96]["mse"].item(), preds_dict[96]["mae"].item()
 	return preds_dict
+
+

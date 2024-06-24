@@ -13,7 +13,7 @@ from datetime import datetime
 class SlidingWindowTimeSeriesDataset(Dataset):
 	"""
 	handles all dataset creation from (timeseries x id) tensors
-	can handle multiple targets as used in iTransformer
+	can handle multiple targets as used in iTransformer paper
 	"""
 	def __init__(self, data, window_size, pred_lengths):
 		self.data = data
@@ -141,8 +141,7 @@ def format_electricity():
 
 		# cutoffs taken from previous papers
 		training_start_date 	= "2014-01-01"
-		#validation_start_date 	= "2014-08-23" #TODO select bigger horizon for 720 preds: 720h + 96h = 34 days
-		validation_start_date   = "2014-07-28" # new validation horizon
+		validation_start_date   = "2014-07-28" 
 		test_start_date			= "2014-09-01"
 
 		dataset_dict = {}
@@ -170,6 +169,11 @@ def format_electricity():
 	return dataset_dict
 
 def load_electricity(standardize=True):
+	"""
+	Handles loading of ELD dataset
+	Output: dict containing train/val/test
+	"""
+	
 	try:
         # Specify the file path where you want to save the dictionary
 		file_path = CONFIG_DATA["ELD"] / "electricity_dict.pkl"
@@ -203,7 +207,8 @@ def load_electricity(standardize=True):
 	return data_dict
 
 
-def convert_data(data_dict, window_size, pred_length, TL_split=False):
+def convert_data(data_dict, window_size, pred_length):
+	"""Convert train/val/test to torch dataloader"""
 
 	train_window = SlidingWindowTimeSeriesDataset(data_dict["train"], window_size, pred_length)
 	val_window = SlidingWindowTimeSeriesDataset(data_dict["validation"], window_size, pred_length)
@@ -214,10 +219,11 @@ def convert_data(data_dict, window_size, pred_length, TL_split=False):
 	dataloader_validation = DataLoader(val_window, batch_size=32, shuffle=False)
 	dataloader_test = DataLoader(test_window, batch_size=32, shuffle=False)
 
-	train_features, train_labels = next(iter(dataloader_train))
+	train_features, _ = next(iter(dataloader_train))
 	print(f"Feature batch shape: {train_features.size()}")
 
 	return dataloader_train, dataloader_validation, dataloader_test
+
 
 def load_eu_electricity():
 	"""
@@ -254,6 +260,7 @@ def load_eu_electricity():
 
 	return df
 		
+
 def eu_electricity_to_tensor():
     """
     -loads eu electricity data and turns into (time series x id) tensor
@@ -272,6 +279,7 @@ def eu_electricity_to_tensor():
     result_tensor = torch.stack(tensor_list)
     result_tensor = result_tensor.transpose(0,1)
     return result_tensor
+
 
 def train_test_split_eu_elec(result_tensor, standardize=True):
     """
@@ -367,11 +375,12 @@ def load_bavaria_electricity():
 
 	return data_tensor
 
+
 def load_genome_project_data():
+	"""Handles loading of GP2 tensor"""
+
 	filename = CONFIG_DATA["GP2"] / "genome_project_dataset.csv"
-
 	pickle_name = CONFIG_DATA["GP2"] / "genome_project_dataset.pkl"
-
 
 	try:
 		# Load the tensor
@@ -420,22 +429,3 @@ def load_genome_project_data():
 	data_tensor = torch.cat([data_tensor[:,:bad_id], data_tensor[:,bad_id+1:]], dim=1)
 
 	return data_tensor
-
-# potentially take different horizons for training
-def create_data_subset(data_dict):
-    """
-    returns last 2, 4, 6, 8 weeks of dataset
-    """
-    sum_timesteps = data_dict["train"].size(0)
-
-    h_per_week = 7 * 24
-    weeks_dict = {"2_weeks" : 2*h_per_week, 
-                "4_weeks" : 4*h_per_week, 
-                "6_weeks" : 6*h_per_week, 
-                "8_weeks" : 8*h_per_week }
-
-
-    for key, value in weeks_dict.items():
-        data_dict[f"train_{key}"][(sum_timesteps-value):,:]     
-
-    return data_dict

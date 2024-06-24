@@ -1,11 +1,7 @@
 from pathlib import Path
-from dataclasses import dataclass
-from beartype.typing import Union, Tuple
 
 current_dir = Path.cwd()
 WORKING_DIR = current_dir.parent
-
-#TODO data / logic / config seperation of concern
 
 
 # path for all datasets
