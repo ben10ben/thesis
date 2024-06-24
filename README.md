@@ -89,7 +89,7 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 &emsp;├── TimeGPT_baseline.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- TimeGPT baseline experiments\
 &emsp;├── iTransformer_baselines.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;-- iTransformer baseline and checkpointing\
 &emsp;├── iTransformer_full_tl.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
-&emsp;├── darts_with_checkpointing.ipynb &nbsp;&nbsp;&nbsp;&emsp;-- NHits/Transformer/TSMixer baseline and TL\
+&emsp;├── darts_with_checkpointing.ipynb &nbsp;&nbsp;&emsp;-- NHits/Transformer/TSMixer baseline and TL\
 &emsp;└── process_results.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- merge results, create tables and plots\
 &emsp;└── helpers &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- functions and classes used in the project\
 └── additional &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- deprecated experiments not used for research\
