@@ -90,10 +90,10 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 &emsp;├── iTransformer_baselines.ipynb &emsp;&emsp;&emsp;-- iTransformer baseline and checkpointing\
 &emsp;├── iTransformer_full_tl.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
 &emsp;├── darts_with_checkpointing.ipynb &nbsp;&nbsp;&nbsp;&emsp;-- NHits/Transformer/TSMixer baseline and TL\
-&emsp;└── process_results.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- merge results, create tables and plots\
-&emsp;└── helpers &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- functions and classes used in the project\
+&emsp;└── process_results.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- merge results, create tables and plots\
+&emsp;└── helpers &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- functions and classes used in the project\
 └── additional &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- deprecated experiments not used for research\
 &emsp;├── darts_no_checkpoint.ipynb &emsp;&emsp;&emsp;&emsp;-- NHits/Transformer/TSMixer experiments using last model\
-&emsp;├── exploratory &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- dataset exploration and visualisation of data processing\
-&emsp;├── reproduce_eld.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer on multiple horizons and compare normalisation\
-&emsp;└── tl_split_dataset.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning after splitting dataset on ids\
+&emsp;├── exploratory &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- dataset exploration and visualisation of data processing\
+&emsp;├── reproduce_eld.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer on multiple horizons and compare normalisation\
+&emsp;└── tl_split_dataset.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning after splitting dataset on ids\
