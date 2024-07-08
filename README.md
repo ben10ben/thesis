@@ -24,13 +24,14 @@ Example results on the BDGP2 dataset using different training strategies:
 # Summary
 **Keywords**: building eletric load forecastng, global time series forecasting, multivariate, deep transfer learning, pre-trained models, foundation models
 
-This repository implements the experiments as descriped in the research paper provided. 
+This repository implements the experiments described in the research paper provided.
 
-With increased smart load measuring infrastructure and more indivisualised consumption patterns due to decentralised solar produciton and charging of electric vehicles, entity specific forecasting becomes even more crucial for efficient grid opperation. Modelling thouands of covariates and handling of indivisualised statistic models becomes impractical, incentivising the use of channel-depdendent multivariate forecasting to capture channel interactions instead of extensive covariate modelling. New infrastructure or new smart-meters lack entity-specific data, leading us to also include transfer learning for the evaluation.
+With increased smart load measuring infrastructure and more individualised consumption patterns due to decentralised solar production and charging of electric vehicles, entity-specific forecasting becomes even more crucial for efficient grid operation. Modelling thousands of covariates and handling individualised statistical models becomes impractical, incentivising the use of channel-dependent multivariate forecasting to capture channel interactions instead of extensive covariate modelling. New infrastructure or new smart meters lack entity-specific data, leading us to include transfer learning in the evaluation.
 
-We evaluate multiple deep learning models, SARIMA and the pre-trained model TimeGPT on the building electric load forecasting task. We benchmark all deep learning models without transfer learning against multiple transfer learning approaches. We evaluate the metrics "Jumpstart" and "Asymptotic Performance". We can show significant improvements on the 2 widely used datasets, especially with TSMixer and iTransformer. The lesser known and irregular dataset shows the intricacy and complexitx of transfer learning as explored in the paper.
+We evaluate multiple deep learning models, SARIMA, and the pre-trained TimeGPT model on the building electric load forecasting task. We benchmark all deep learning models without transfer learning against multiple transfer learning approaches. We evaluate the metrics "Jumpstart" and "Asymptotic Performance". Significant improvements are shown on two widely used datasets, particularly with TSMixer and iTransformer. The less known and irregular dataset shows the intricacy and complexity of transfer learning, as explored in this paper.
 
-The "Building Data Genome Project 2" dataset is used for a case study where we show the potential to increase predictive performance during the first year of measurement by up to 29% or 1.6 % of MAPE, which equals savings of around 35 USD per building.  
+The "Building Data Genome Project 2" dataset is used for a case study where we show the potential to increase predictive performance during the first year of measurement by up to 29% or 1.6 % of MAPE, which equals savings of around 35 USD per building.
+
 
 
 # Working with the repo
