@@ -65,6 +65,8 @@ This notebook loads and reshapes the pre-trained models according to the target 
 
 Use `darts_with_checkpointing.ipynb` to forecast using the NHits/Transformer/TSMixer models with the darts library. Checkpointing is implemented to use the best model but checkpoints are deleted after inference because of model size and number. Sub-experiments cannot be resumed but once a dataset-model-tl_setup combination is finished the results are saved and skipped when resuming training.  
 
+Use `case_study.ipynb` to use the first 12*4 weeks of the BDGP2 dataset to compare the performance of iTransformer without transfer learning against iTransformer pre-trained on the ELD dataset and compare the forecasting errors in GWh. 
+
 Use `Process_results.ipynb` to load all outputs and process outputs for final tables and visualisaiton and to calculate the metrics 'jumpstart' and 'asymptotic performance'
 
 # Results
@@ -90,6 +92,7 @@ Transfer Learning Metrics on ELD and BDGP2 datasets (Percentage change between M
 &emsp;├── TimeGPT_baseline.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- TimeGPT baseline experiments\
 &emsp;├── iTransformer_baselines.ipynb &nbsp;&nbsp;&nbsp;&emsp;&emsp;-- iTransformer baseline and checkpointing\
 &emsp;├── iTransformer_full_tl.ipynb &nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;-- iTransformer transfer learning\
+&emsp;├── case_study.ipynb &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- run case study experiment
 &emsp;├── darts_with_checkpointing.ipynb &nbsp;&nbsp;&nbsp;&emsp;-- NHits/Transformer/TSMixer baseline and TL\
 &emsp;└── process_results.ipynb &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- merge results, create tables and plots\
 &emsp;└── helpers &nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-- functions and classes used in the project\
